@@ -450,6 +450,64 @@
     z-index:1;
   }
 
+  /* ---------- Featured pick banner ---------- */
+  .featured-section{
+    padding:0 28px 26px;
+  }
+  .featured-wrap{
+    display:block;
+  }
+  .card-featured{
+    min-height:260px;
+    align-items:stretch;
+  }
+  .card-featured .body{
+    padding:34px 38px 30px;
+    gap:14px;
+    justify-content:center;
+  }
+  .card-featured .featured-eyebrow{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.74rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--rust-deep);
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+  .card-featured .featured-eyebrow svg{width:13px; height:13px; stroke:var(--rust-deep); fill:none;}
+  .card-featured h3{
+    font-size:clamp(1.5rem, 2.6vw, 2.2rem);
+    line-height:1.12;
+  }
+  .card-featured p{
+    font-size:1.05rem;
+    line-height:1.6;
+    max-width:60ch;
+    -webkit-line-clamp:3;
+  }
+  .card-featured .call-row{margin-bottom:2px;}
+  .card-featured .open{font-size:0.78rem;}
+  .featured-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    width:200px;
+    color:var(--brass);
+    opacity:0.55;
+    border-left:1px solid var(--line);
+  }
+  .featured-icon svg{width:110px; height:110px;}
+
+  @media (max-width:820px){
+    .featured-section{padding:0 18px 20px;}
+    .card-featured{min-height:0;}
+    .card-featured .body{padding:24px 22px 22px;}
+    .featured-icon{display:none;}
+  }
+
   /* ---------- Recently updated shelf ---------- */
   .recent-section{
     padding:0 28px 8px;
@@ -785,6 +843,10 @@
       <p>Become wiser,  calmer, peaceful, joyful and more capable—one lesson at a time. Explore carefully crafted guides designed to give you knowledge you can actually use when life gets complicated.</p>
     </div>
 
+    <section class="featured-section" id="featuredSection" hidden>
+      <div class="featured-wrap" id="featuredWrap"></div>
+    </section>
+
     <section class="crowd-section" id="crowdSection" hidden>
       <div class="crowd-heading">
         <h2><svg viewBox="0 0 24 24" stroke-width="0"><path d="M12 21s-6.7-4.35-9.3-8.1C.6 9.9 1.8 6 5.1 5c2-.6 3.9.2 5 1.8L12 8.5l1.9-1.7c1.1-1.6 3-2.4 5-1.8 3.3 1 4.5 4.9 2.4 7.9C18.7 16.65 12 21 12 21Z"/></svg>Crowd favorite</h2>
@@ -875,6 +937,55 @@
     });
   }
 
+  // ---------- Supabase (site-wide view tracking, for "hidden gems") ----------
+  // Reuses the same Supabase project/client as hearts. Views are deduped per
+  // visitor (like hearts), so the count is unique viewers, and viewed_at
+  // tracks the most recent open by anyone — used to find guides nobody's
+  // opened, and as a graceful fallback ("least recently opened by anyone")
+  // once every guide has some engagement.
+  const VIEWS_ENABLED = HEARTS_ENABLED;
+  let viewCounts = {};
+  let lastViewedAt = {};
+
+  async function loadViews(){
+    if (!sb || !VIEWS_ENABLED) return;
+    try{
+      const res = await sb.from('guide_view_counts').select('guide_url, views, last_viewed_at');
+      if (!res.error && res.data){
+        const nextCounts = {};
+        const nextLast = {};
+        res.data.forEach(function(row){
+          nextCounts[row.guide_url] = row.views;
+          nextLast[row.guide_url] = row.last_viewed_at;
+        });
+        viewCounts = nextCounts;
+        lastViewedAt = nextLast;
+      }
+    }catch(err){
+      // Views are a non-critical enhancement for the featured pick — a failed
+      // fetch just means the picker falls back to recency + hearts only.
+    }
+  }
+
+  function applyViews(guides){
+    guides.forEach(function(g){
+      g.uniqueViews = viewCounts[g.url] || 0;
+      g.lastViewedAt = lastViewedAt[g.url] || null;
+    });
+  }
+
+  async function recordView(url){
+    if (!sb || !VIEWS_ENABLED) return;
+    try{
+      await sb.from('guide_views').upsert(
+        { guide_url: url, voter_id: voterId, viewed_at: new Date().toISOString() },
+        { onConflict: 'guide_url,voter_id' }
+      );
+    }catch(err){
+      // Non-critical — the featured picker just works off slightly stale data.
+    }
+  }
+
   function syncHeartUI(url){
     const count = heartCounts[url] || 0;
     const active = myHearts.has(url);
@@ -925,6 +1036,8 @@
   const sidebarClose = document.getElementById('sidebarClose');
   const sidebarOverlay = document.getElementById('sidebarOverlay');
   const sortSelect = document.getElementById('sortSelect');
+  const featuredSection = document.getElementById('featuredSection');
+  const featuredWrap = document.getElementById('featuredWrap');
   const recentSection = document.getElementById('recentSection');
   const recentGrid = document.getElementById('recentGrid');
   const recentCount = document.getElementById('recentCount');
@@ -957,6 +1070,7 @@
     }catch(err){
       // Storage unavailable — visited state simply won't persist this session.
     }
+    recordView(url);
   }
 
   function daysSince(dateStr){
@@ -1106,15 +1220,26 @@
       ? '<span class="visited-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Visited</span>'
       : '';
 
+    if (opts.featured) card.classList.add('card-featured');
+
+    const eyebrowHTML = opts.featured
+      ? '<div class="featured-eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17.3 6.2 20l1.1-6.4L2.6 9.2l6.5-.9L12 2.5l2.9 5.8 6.5.9-4.7 4.4 1.1 6.4Z"/></svg>Hidden gem</div>'
+      : '';
+    const iconHTML = opts.featured
+      ? '<div class="featured-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.8C4 4.8 4.8 4 5.8 4H11a2 2 0 0 1 2 2v14.2a1.8 1.8 0 0 0-1.8-1.8H4V5.8Z"/><path d="M20 5.8c0-1-.8-1.8-1.8-1.8H13a2 2 0 0 0-2 2v14.2a1.8 1.8 0 0 1 1.8-1.8H20V5.8Z"/></svg></div>'
+      : '';
+
     card.innerHTML =
       '<div class="spine"></div>' +
       '<div class="body">' +
+        eyebrowHTML +
         '<div class="call-row"><div class="call-meta"><span class="call-no">' + callNo + '</span><span class="sep">·</span><span class="updated-date">' + formatDate(g.updated) + '</span></div>' + badgeHTML + '</div>' +
         '<h3>' + g.title + '</h3>' +
         '<p title="' + g.description.replace(/"/g, '&quot;') + '">' + g.description + '</p>' +
         visitedHTML +
         '<div class="foot-row"><span class="open">Open guide →</span></div>' +
-      '</div>';
+      '</div>' +
+      iconHTML;
 
     card.dataset.url = g.url;
 
@@ -1167,17 +1292,90 @@
     }
   }
 
+  // Featured pick — surfaces "hidden gems" rather than guides that are
+  // already easy to spot (hearted, or recently updated with the New badge).
+  //
+  // 1. Rank every guide by engagement = hearts*3 + unique site-wide views
+  //    (site-wide, via Supabase — the lower, the more "hidden").
+  // 2. Take the 8 least-engaged guides as the candidate pool.
+  // 3. Within that pool, favor guides that have gone the longest without
+  //    being opened by anyone (never-viewed guides get a head start over
+  //    merely long-since-viewed ones), with a bit of deterministic
+  //    randomness mixed in so the pick doesn't always land on the single
+  //    oldest guide.
+  // 4. If every guide already has engagement (small/well-loved library),
+  //    this naturally degrades to "least recently opened by anyone" —
+  //    no special-case fallback needed.
+  //
+  // The randomness is seeded by the day + guide URL, not Math.random(), so
+  // every visitor sees the same pick on a given day (it rotates daily,
+  // rather than reshuffling on every reload).
+  function seededRandom(str){
+    let h = 0;
+    for (let i = 0; i < str.length; i++){
+      h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+    }
+    return ((h >>> 0) % 1000) / 1000;
+  }
+
+  function pickFeatured(guides){
+    if (!guides.length) return null;
+    const dayIndex = Math.floor(Date.now() / 86400000);
+
+    const scored = guides.map(function(g){
+      const hearts = g.hearts || 0;
+      const uniqueViews = g.uniqueViews || 0;
+      const engagement = hearts * 3 + uniqueViews;
+      const neverViewed = !g.lastViewedAt;
+      const neglectDays = neverViewed ? daysSince(g.updated) : daysSince(g.lastViewedAt);
+      // Never-viewed guides get a flat head start so they generally rank
+      // above guides that were viewed once, long ago.
+      const neglectScore = neglectDays + (neverViewed ? 60 : 0);
+      return { g: g, engagement: engagement, neglectScore: neglectScore };
+    });
+
+    scored.sort(function(a, b){
+      if (a.engagement !== b.engagement) return a.engagement - b.engagement;
+      return b.neglectScore - a.neglectScore;
+    });
+
+    const pool = scored.slice(0, Math.min(8, scored.length));
+
+    let best = null, bestWeight = -Infinity;
+    pool.forEach(function(item){
+      const jitter = seededRandom(dayIndex + '|' + item.g.url) * 45;
+      const weight = item.neglectScore + jitter;
+      if (weight > bestWeight){ bestWeight = weight; best = item.g; }
+    });
+    return best;
+  }
+
+  function renderFeatured(guides, visitedMap){
+    const pick = pickFeatured(guides);
+    featuredWrap.innerHTML = '';
+    if (!pick){
+      featuredSection.hidden = true;
+      return;
+    }
+    const callNo = callNumber(guides.indexOf(pick));
+    featuredWrap.appendChild(buildCard(pick, callNo, visitedMap, { featured: true }));
+    featuredSection.hidden = false;
+  }
+
   function render(guides){
     allGuides = guides;
 
     if (guides.length === 0){
       renderEmpty('No public repositories with GitHub Pages enabled were found yet. Publish one, then reload.');
+      featuredSection.hidden = true;
       recentSection.hidden = true;
       shelfDivider.hidden = true;
       return;
     }
 
     const visitedMap = readVisited();
+
+    renderFeatured(guides, visitedMap);
 
     // Recently updated shelf — a horizontally-scrolling highlight strip so
     // returning readers spot what changed without hunting through the full grid.
@@ -1357,13 +1555,16 @@
     const cached = readCache();
     const isFresh = cached && (Date.now() - cached.savedAt < CACHE_TTL_MS);
 
-    // Hearts are fetched fresh on every visit (never cached) alongside the
-    // repo data, so vote counts are never more than one page-load stale.
+    // Hearts and views are fetched fresh on every visit (never cached)
+    // alongside the repo data, so vote counts and the featured pick are
+    // never more than one page-load stale.
     const heartsPromise = loadHearts();
+    const viewsPromise = loadViews();
 
     async function renderGuides(guides){
-      await heartsPromise;
+      await Promise.all([heartsPromise, viewsPromise]);
       applyHearts(guides);
+      applyViews(guides);
       render(guides);
     }
 
