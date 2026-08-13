@@ -386,9 +386,9 @@
   /* ---------- Recency badges ---------- */
   .card .call-row{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
   }
   .call-meta{
     display:flex;
@@ -475,7 +475,7 @@
   .recent-grid{
     display:grid;
     grid-auto-flow:column;
-    grid-auto-columns:minmax(240px, 1fr);
+    grid-auto-columns:minmax(240px, 320px);
     gap:14px;
     overflow-x:auto;
     padding-bottom:10px;
@@ -524,7 +524,7 @@
   .crowd-grid{
     display:grid;
     grid-auto-flow:column;
-    grid-auto-columns:minmax(240px, 1fr);
+    grid-auto-columns:minmax(240px, 320px);
     gap:14px;
     overflow-x:auto;
     padding-bottom:10px;
@@ -785,15 +785,6 @@
       <p>Become wiser,  calmer, peaceful, joyful and more capable—one lesson at a time. Explore carefully crafted guides designed to give you knowledge you can actually use when life gets complicated.</p>
     </div>
 
-    <section class="recent-section" id="recentSection" hidden>
-      <div class="recent-heading">
-        <h2>Recently updated</h2>
-        <span class="count" id="recentCount"></span>
-      </div>
-      <div class="recent-grid" id="recentGrid"></div>
-    </section>
-    <hr class="shelf-divider" id="shelfDivider" hidden>
-
     <section class="crowd-section" id="crowdSection" hidden>
       <div class="crowd-heading">
         <h2><svg viewBox="0 0 24 24" stroke-width="0"><path d="M12 21s-6.7-4.35-9.3-8.1C.6 9.9 1.8 6 5.1 5c2-.6 3.9.2 5 1.8L12 8.5l1.9-1.7c1.1-1.6 3-2.4 5-1.8 3.3 1 4.5 4.9 2.4 7.9C18.7 16.65 12 21 12 21Z"/></svg>Crowd favorite</h2>
@@ -802,6 +793,15 @@
       <div class="crowd-grid" id="crowdGrid"></div>
     </section>
     <hr class="shelf-divider" id="crowdDivider" hidden>
+
+    <section class="recent-section" id="recentSection" hidden>
+      <div class="recent-heading">
+        <h2>Recently updated</h2>
+        <span class="count" id="recentCount"></span>
+      </div>
+      <div class="recent-grid" id="recentGrid"></div>
+    </section>
+    <hr class="shelf-divider" id="shelfDivider" hidden>
 
     <div class="grid-wrap">
       <div class="card-grid" id="cardGrid">
@@ -824,8 +824,8 @@
 
   // ---------- Supabase (Crowd favorite hearts) ----------
   // Fill these in after you create your Supabase project (see setup guide).
-  const SUPABASE_URL = "https://gtwqjkrkupkcpxafdepg.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_bYetZP5wIfGluCKzTjfcbg_O0FdpXwj";
+  const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
   const HEARTS_ENABLED = SUPABASE_URL.indexOf("YOUR_") !== 0 && SUPABASE_ANON_KEY.indexOf("YOUR_") !== 0 && !!window.supabase;
   const sb = HEARTS_ENABLED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
@@ -1096,10 +1096,10 @@
     if (isVisited) card.classList.add('visited');
 
     const badge = recencyBadge(g.updated);
-    // The recent-shelf cards are narrower, so the longer "Updated recently"
-    // label collides with the date text next to it — the shelf's own heading
-    // already communicates recency, so skip that badge there and keep only
-    // the short "New" one.
+    // The recent-shelf cards are narrower, and that shelf's own heading
+    // already communicates recency, so skip the longer "Updated recently"
+    // badge there and keep only the short "New" one. (call-row now wraps
+    // if it ever runs out of room, so this is a style choice, not a fix.)
     const showBadge = badge && !(opts.compact && badge.cls === 'badge-recent');
     const badgeHTML = showBadge ? '<span class="badge ' + badge.cls + '">' + badge.label + '</span>' : '';
     const visitedHTML = isVisited
@@ -1246,7 +1246,7 @@
         if (diff !== 0) return diff;
         return new Date(b.updated) - new Date(a.updated);
       })
-      .slice(0, 7);
+      .slice(0, 5);
 
     crowdGrid.innerHTML = '';
     if (favorites.length > 0){
