@@ -824,8 +824,8 @@
 
   // ---------- Supabase (Crowd favorite hearts) ----------
   // Fill these in after you create your Supabase project (see setup guide).
-  const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+  const SUPABASE_URL = "https://gtwqjkrkupkcpxafdepg.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_bYetZP5wIfGluCKzTjfcbg_O0FdpXwj";
   const HEARTS_ENABLED = SUPABASE_URL.indexOf("YOUR_") !== 0 && SUPABASE_ANON_KEY.indexOf("YOUR_") !== 0 && !!window.supabase;
   const sb = HEARTS_ENABLED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
