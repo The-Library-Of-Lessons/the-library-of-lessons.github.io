@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="mountainFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(--hero-mtn-1, #627d70)" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="var(--hero-mtn-1, #627d70)" stop-opacity="0.75"/>
+    </linearGradient>
+    <linearGradient id="mountainMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(--hero-mtn-2, #3b5c4b)" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="var(--hero-mtn-2, #3b5c4b)" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="mistGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(--hero-mist, #ffffff)" stop-opacity="0"/>
+      <stop offset="50%" stop-color="var(--hero-mist, #ffffff)" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="var(--hero-mist, #ffffff)" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Far Distant Peaks -->
+  <path d="M-50 420 L280 260 L490 350 L750 210 L1020 340 L1310 190 L1600 320 L1850 240 L1980 310 L1980 600 L-50 600 Z" fill="url(#mountainFar)"/>
+
+  <!-- Mist Layer 1 -->
+  <path d="M-50 380 Q 400 320, 960 370 T 1980 350 L 1980 480 L -50 480 Z" fill="url(#mistGrad)"/>
+
+  <!-- Mid Ridge with Conifer Silhouettes -->
+  <path d="M-50 460 
+           L60 410 L90 425 L140 380 L180 410 L250 360 L320 405 L420 330 L500 380 L620 310 L710 365 
+           L840 280 L920 330 L1040 270 L1140 335 L1260 260 L1380 325 L1500 290 L1630 350 L1760 300 
+           L1880 360 L1980 320 L1980 600 L-50 600 Z" fill="url(#mountainMid)"/>
+
+  <!-- Soft Mist Floor -->
+  <rect y="440" width="1920" height="160" fill="url(#mistGrad)"/>
+
+  <!-- Distant Birds -->
+  <g opacity="0.45" fill="none" stroke="currentColor">
+    <path d="M420 180 Q430 172 440 180 Q450 172 460 180" stroke-width="2"/>
+    <path d="M465 195 Q472 188 480 195 Q488 188 495 195" stroke-width="1.6"/>
+    <path d="M400 205 Q406 200 412 205 Q418 200 424 205" stroke-width="1.4"/>
+    <path d="M1480 140 Q1490 132 1500 140 Q1510 132 1520 140" stroke-width="2"/>
+    <path d="M1525 155 Q1532 149 1540 155 Q1548 149 1555 155" stroke-width="1.6"/>
+  </g>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 650" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="forestMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(--hero-forest-mid, #1f422e)"/>
+      <stop offset="100%" stop-color="var(--hero-forest-deep, #0f2318)"/>
+    </linearGradient>
+    <linearGradient id="treeHighlight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Stately Trunks Midground -->
+  <g fill="url(#forestMid)">
+    <!-- Tree 1 Left -->
+    <path d="M120 650 L145 280 L135 240 L160 280 L180 650 Z"/>
+    <!-- Tree 2 Left -->
+    <path d="M280 650 L310 190 L340 650 Z"/>
+    <!-- Tree 3 Center-Left -->
+    <path d="M540 650 L560 310 L590 650 Z"/>
+    <!-- Tree 4 Center-Right -->
+    <path d="M1320 650 L1350 250 L1385 650 Z"/>
+    <!-- Tree 5 Right -->
+    <path d="M1610 650 L1640 180 L1680 650 Z"/>
+    <!-- Tree 6 Far Right -->
+    <path d="M1780 650 L1800 240 L1840 650 Z"/>
+
+    <!-- Lush Foliage Boughs and Canopy Clouds -->
+    <!-- Left Cluster -->
+    <path d="M-20 340 C40 280, 100 290, 150 250 C210 210, 290 230, 340 180 C400 220, 470 200, 520 260 C580 290, 610 360, 600 420 C540 460, 480 430, 420 450 C360 480, 270 470, 220 510 C140 490, 60 520, -20 480 Z"/>
+    
+    <!-- Center Arch Canopy -->
+    <path d="M480 230 C560 170, 660 190, 740 140 C840 160, 920 120, 1020 150 C1100 120, 1200 160, 1280 130 C1360 180, 1440 160, 1500 220 C1440 280, 1360 260, 1300 300 C1220 270, 1140 310, 1060 280 C980 320, 880 280, 800 310 C720 280, 640 330, 580 300 C520 330, 480 280, 480 230 Z"/>
+
+    <!-- Right Cluster -->
+    <path d="M1360 260 C1430 190, 1520 210, 1590 170 C1670 200, 1750 180, 1820 230 C1900 220, 1940 280, 1960 340 L1960 520 C1890 490, 1810 520, 1740 480 C1680 500, 1590 470, 1530 500 C1470 460, 1400 480, 1340 430 Z"/>
+
+    <!-- Forest Ground Layer Silhouette -->
+    <path d="M-20 560 Q 300 520, 640 550 T 1320 540 T 1960 550 L 1960 650 L -20 650 Z"/>
+  </g>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 700" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="foreGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(--hero-leaf-dark, #0b1a11)"/>
+      <stop offset="100%" stop-color="var(--hero-leaf-deep, #050e09)"/>
+    </linearGradient>
+    <linearGradient id="leafAcc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3d7e52"/>
+      <stop offset="100%" stop-color="#143921"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Top-Left Giant Framing Branch -->
+  <g fill="url(#foreGreen)">
+    <!-- Main Arching Trunk Left -->
+    <path d="M-40 -40 C 60 80, 180 140, 360 170 C 490 190, 620 160, 740 110 C 670 140, 520 220, 340 200 C 170 180, 50 120, -40 20 Z"/>
+    
+    <!-- Leaves on Left Branch -->
+    <!-- Leaf clusters -->
+    <path d="M220 160 C 240 120, 290 130, 320 150 C 300 180, 250 190, 220 160 Z" fill="url(#leafAcc)"/>
+    <path d="M290 170 C 330 140, 380 160, 400 190 C 360 210, 320 200, 290 170 Z"/>
+    <path d="M430 165 C 470 130, 520 150, 550 180 C 510 200, 460 195, 430 165 Z" fill="url(#leafAcc)"/>
+    <path d="M560 140 C 610 110, 660 125, 690 155 C 640 175, 590 170, 560 140 Z"/>
+    <path d="M680 100 C 730 75, 780 90, 810 125 C 760 140, 710 130, 680 100 Z" fill="url(#leafAcc)"/>
+
+    <!-- Hanging Vines / Tendrils with leaves -->
+    <path d="M160 150 Q 180 260, 150 340 Q 140 260, 160 150 Z"/>
+    <path d="M140 280 C 110 270, 105 295, 125 310 C 145 320, 155 300, 140 280 Z" fill="url(#leafAcc)"/>
+    <path d="M155 330 C 130 335, 135 360, 155 365 C 175 360, 175 340, 155 330 Z"/>
+
+    <path d="M380 185 Q 410 310, 390 400 Q 375 310, 380 185 Z"/>
+    <path d="M400 320 C 430 310, 435 340, 410 355 C 390 365, 385 335, 400 320 Z" fill="url(#leafAcc)"/>
+    <path d="M385 390 C 360 395, 365 425, 390 425 C 415 420, 410 395, 385 390 Z"/>
+
+    <!-- Top-Right Framing Branch -->
+    <path d="M1960 -40 C 1850 60, 1720 120, 1540 145 C 1410 165, 1280 135, 1180 90 C 1250 120, 1390 195, 1560 175 C 1710 160, 1830 90, 1960 20 Z"/>
+    <path d="M1680 140 C 1650 100, 1600 110, 1570 130 C 1590 160, 1640 170, 1680 140 Z" fill="url(#leafAcc)"/>
+    <path d="M1520 155 C 1480 125, 1430 140, 1410 170 C 1450 190, 1490 185, 1520 155 Z"/>
+    <path d="M1360 140 C 1310 110, 1260 125, 1230 155 C 1270 175, 1320 170, 1360 140 Z" fill="url(#leafAcc)"/>
+    
+    <path d="M1560 160 Q 1530 280, 1555 360 Q 1570 280, 1560 160 Z"/>
+    <path d="M1545 290 C 1515 285, 1515 315, 1535 325 C 1555 330, 1565 305, 1545 290 Z" fill="url(#leafAcc)"/>
+
+    <!-- Bottom Left & Right Lush Fern Fronds framing floor -->
+    <!-- Left Fern cluster -->
+    <path d="M-20 700 C 40 600, 110 560, 180 540 C 130 580, 70 630, 10 700 Z"/>
+    <path d="M-20 680 C 80 620, 180 610, 260 630 C 170 660, 80 680, -20 700 Z" fill="url(#leafAcc)"/>
+    <!-- Right Fern cluster -->
+    <path d="M1940 700 C 1870 590, 1790 550, 1700 530 C 1770 580, 1840 630, 1910 700 Z"/>
+    <path d="M1940 670 C 1840 610, 1740 605, 1650 630 C 1740 660, 1830 680, 1940 700 Z" fill="url(#leafAcc)"/>
+  </g>
+</svg>
