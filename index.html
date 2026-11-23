@@ -3,1933 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>The Library of Lessons — Distilled Wisdom & Practical Guides</title>
-  <meta name="description" content="A serene, handcrafted catalog of distilled guides and frameworks on leadership, calmness of mind, work systems, connection, and human wisdom.">
-  <meta name="theme-color" content="#1b3022">
+  <title>The Library of Lessons: Distilled Wisdom &amp; Practical Guides</title>
+  <meta name="description" content="An open-access living archive of distilled guides and practical frameworks on leadership, peace of mind, work systems, connection, and human wisdom.">
+  <meta name="theme-color" content="#0f1d15">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
-  <!-- Open Graph / Meta -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="The Library of Lessons">
   <meta property="og:description" content="Distilled wisdom, practical frameworks, and quiet lessons for leadership, peace of mind, and the craft of living well.">
-  <meta property="og:image" content="assets/favicon.svg">
+  <meta property="og:image" content="assets/hero-pavilion.jpg">
 
-  <!-- Typography: Fraunces (Headings), Plus Jakarta Sans (Body), IBM Plex Mono (Catalog/Badges) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Supabase JS Client for Crowd Favorites and View Analytics -->
+  <link rel="stylesheet" href="engine/scrollcraft.css">
+  <link rel="stylesheet" href="styles.css">
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    /* -------------------------------------------------------------
-       DESIGN TOKENS & TIME-OF-DAY PALETTES
-       ------------------------------------------------------------- */
-    :root {
-      /* Shared Spacing & Typography */
-      --font-display: "Fraunces", Georgia, serif;
-      --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-      --font-mono: "IBM Plex Mono", Menlo, Consolas, monospace;
-
-      --radius-sm: 6px;
-      --radius-md: 12px;
-      --radius-lg: 18px;
-      --radius-xl: 26px;
-      --radius-full: 9999px;
-
-      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      --transition-spring: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-
-      /* Day Theme (Default: Sunlit Canopy & Brass) */
-      --forest-canvas: #f7f5ef;
-      --forest-deep: #162a1e;
-      --forest-mist: rgba(255, 255, 255, 0.72);
-      --paper: #ffffff;
-      --paper-warm: #faf8f2;
-      --paper-subtle: #f2eee3;
-      --card-bg: #ffffff;
-      --card-hover: #ffffff;
-      --ink: #19261d;
-      --ink-soft: #4a5c50;
-      --ink-faint: #788a7e;
-      --line: #e3ddcf;
-      --line-dark: #c8beac;
-      --moss: #245e3e;
-      --moss-light: #eaf3ec;
-      --moss-accent: #3ea869;
-      --amber: #b45309;
-      --amber-glow: #f59e0b;
-      --walnut: #422a1d;
-      --shadow-sm: 0 2px 6px rgba(22, 42, 30, 0.05);
-      --shadow-md: 0 10px 28px -6px rgba(22, 42, 30, 0.09), 0 3px 8px rgba(22, 42, 30, 0.04);
-      --shadow-lg: 0 24px 60px -12px rgba(22, 42, 30, 0.14), 0 6px 16px rgba(22, 42, 30, 0.06);
-
-      --hero-sky-1: #dbebe1;
-      --hero-sky-2: #fcf9f2;
-      --hero-sun: #fff8e7;
-      --hero-mtn-1: #789987;
-      --hero-mtn-2: #3f6851;
-      --hero-forest-mid: #1d3e2a;
-      --hero-forest-deep: #0f2216;
-      --hero-mist: #ffffff;
-      --hero-leaf-dark: #0b1a11;
-      --hero-leaf-deep: #050e09;
-
-      /* Hero Plaque Contrast Variables */
-      --hero-scrim: rgba(255, 255, 255, 0.78);
-      --hero-scrim-border: rgba(255, 255, 255, 0.95);
-      --hero-text-title: #14291c;
-      --hero-text-sub: #384d40;
-      --hero-btn-primary-bg: #14291c;
-      --hero-btn-primary-text: #ffffff;
-    }
-
-    /* Dawn Theme (Blush Mist & Soft Golden Light) */
-    html[data-daypart="dawn"] {
-      --forest-canvas: #f8f3f5;
-      --forest-deep: #261928;
-      --forest-mist: rgba(255, 240, 245, 0.72);
-      --paper: #ffffff;
-      --paper-warm: #fcf6f7;
-      --paper-subtle: #f3e9ec;
-      --card-bg: #ffffff;
-      --ink: #261726;
-      --ink-soft: #5e475c;
-      --ink-faint: #8e748c;
-      --line: #e8d9e2;
-      --line-dark: #cdb9c6;
-      --moss: #6b2d5c;
-      --moss-light: #fbebf6;
-      --moss-accent: #a24b8d;
-      --amber: #c2410c;
-      --amber-glow: #fb923c;
-      --walnut: #4a233b;
-      --hero-sky-1: #fbcfe8;
-      --hero-sky-2: #fef3c7;
-      --hero-sun: #fffbeb;
-      --hero-mtn-1: #a78bfa;
-      --hero-mtn-2: #6d28d9;
-      --hero-forest-mid: #3b1b50;
-      --hero-forest-deep: #1e0b2b;
-      --hero-mist: #fdf2f8;
-      --hero-leaf-dark: #190924;
-      --hero-leaf-deep: #0b0312;
-
-      --hero-scrim: rgba(255, 255, 255, 0.82);
-      --hero-scrim-border: rgba(255, 255, 255, 0.95);
-      --hero-text-title: #2a162b;
-      --hero-text-sub: #583c56;
-      --hero-btn-primary-bg: #2a162b;
-      --hero-btn-primary-text: #ffffff;
-    }
-
-    /* Golden Hour Theme (Warm Amber, Terracotta & Glowing Lanterns) */
-    html[data-daypart="golden"] {
-      --forest-canvas: #fbf5eb;
-      --forest-deep: #2d180c;
-      --forest-mist: rgba(255, 237, 213, 0.72);
-      --paper: #ffffff;
-      --paper-warm: #fcf7ef;
-      --paper-subtle: #f5ebe0;
-      --card-bg: #ffffff;
-      --ink: #291b11;
-      --ink-soft: #634b3d;
-      --ink-faint: #967a6a;
-      --line: #ebdcca;
-      --line-dark: #d2beaa;
-      --moss: #9a3412;
-      --moss-light: #ffedd5;
-      --moss-accent: #ea580c;
-      --amber: #b45309;
-      --amber-glow: #f59e0b;
-      --walnut: #451a03;
-      --hero-sky-1: #fed7aa;
-      --hero-sky-2: #ffedd5;
-      --hero-sun: #fef08a;
-      --hero-mtn-1: #d97706;
-      --hero-mtn-2: #9a3412;
-      --hero-forest-mid: #54220b;
-      --hero-forest-deep: #2c0e03;
-      --hero-mist: #fff7ed;
-      --hero-leaf-dark: #240a02;
-      --hero-leaf-deep: #100401;
-
-      --hero-scrim: rgba(255, 255, 255, 0.82);
-      --hero-scrim-border: rgba(255, 255, 255, 0.95);
-      --hero-text-title: #2c1407;
-      --hero-text-sub: #573a27;
-      --hero-btn-primary-bg: #2c1407;
-      --hero-btn-primary-text: #ffffff;
-    }
-
-    /* Night Theme (Midnight Canopy, Starlight & Glowing Lanterns) */
-    html[data-daypart="night"] {
-      --forest-canvas: #0c140f;
-      --forest-deep: #040805;
-      --forest-mist: rgba(17, 32, 23, 0.78);
-      --paper: #132018;
-      --paper-warm: #18281e;
-      --paper-subtle: #1c3024;
-      --card-bg: #132018;
-      --card-hover: #18281e;
-      --ink: #ecf3ee;
-      --ink-soft: #a2b7a8;
-      --ink-faint: #6c8373;
-      --line: #22382b;
-      --line-dark: #314d3b;
-      --moss: #40916c;
-      --moss-light: #1b3826;
-      --moss-accent: #74c69d;
-      --amber: #f59e0b;
-      --amber-glow: #fbbf24;
-      --walnut: #d97706;
-      --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.25);
-      --shadow-md: 0 10px 28px -6px rgba(0, 0, 0, 0.45);
-      --shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, 0.6);
-
-      --hero-sky-1: #060e09;
-      --hero-sky-2: #11261b;
-      --hero-sun: #fef08a;
-      --hero-mtn-1: #1a3828;
-      --hero-mtn-2: #10251a;
-      --hero-forest-mid: #0a1b11;
-      --hero-forest-deep: #040b07;
-      --hero-mist: #1a3525;
-      --hero-leaf-dark: #07120b;
-      --hero-leaf-deep: #020603;
-
-      /* High-contrast luminous card on midnight background */
-      --hero-scrim: rgba(14, 26, 18, 0.88);
-      --hero-scrim-border: rgba(116, 198, 157, 0.35);
-      --hero-text-title: #f2f8f4;
-      --hero-text-sub: #b7cebf;
-      --hero-btn-primary-bg: #3ea869;
-      --hero-btn-primary-text: #05140b;
-    }
-
-    /* -------------------------------------------------------------
-       GLOBAL RESET & BASE STYLING
-       ------------------------------------------------------------- */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      font-family: var(--font-body);
-      background-color: var(--forest-canvas);
-      color: var(--ink);
-      line-height: 1.6;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      transition: background-color 0.4s ease, color 0.4s ease;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font-family: inherit;
-      cursor: pointer;
-      border: none;
-      background: none;
-    }
-
-    /* Focus Visible */
-    :focus-visible {
-      outline: 2px solid var(--moss-accent);
-      outline-offset: 3px;
-    }
-
-    /* -------------------------------------------------------------
-       STICKY HEADER WITH GLASSMORPHISM
-       ------------------------------------------------------------- */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(14px) saturate(160%);
-      -webkit-backdrop-filter: blur(14px) saturate(160%);
-      background-color: var(--forest-mist);
-      border-bottom: 1px solid var(--line);
-      transition: border-color 0.3s ease, background-color 0.3s ease;
-    }
-
-    .header-inner {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .logo-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      user-select: none;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: var(--forest-deep);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .logo-group:hover .logo-icon {
-      transform: rotate(-6deg) scale(1.05);
-    }
-
-    .logo-icon svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    .logo-text h1 {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-
-    .logo-text span {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-faint);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* Reading Journey Mini Badge */
-    .journey-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-full);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--ink-soft);
-      cursor: pointer;
-      transition: var(--transition-smooth);
-    }
-
-    .journey-pill:hover {
-      border-color: var(--moss);
-      color: var(--ink);
-      background: var(--paper);
-    }
-
-    .journey-tree-icon {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    /* Command Palette Search Trigger Button */
-    .search-trigger-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 7px 14px;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-full);
-      color: var(--ink-faint);
-      font-size: 0.84rem;
-      transition: var(--transition-smooth);
-    }
-
-    .search-trigger-btn:hover {
-      border-color: var(--moss-accent);
-      color: var(--ink);
-      background: var(--paper);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .search-trigger-btn svg {
-      width: 15px;
-      height: 15px;
-      stroke-width: 2.2;
-      color: var(--ink-soft);
-    }
-
-    .search-kbd {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 6px;
-      background: var(--forest-canvas);
-      border: 1px solid var(--line-dark);
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-      color: var(--ink-soft);
-    }
-
-    /* Daypart Selector Pill */
-    .daypart-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 12px;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-full);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--ink-soft);
-      transition: var(--transition-smooth);
-    }
-
-    .daypart-btn:hover {
-      border-color: var(--amber);
-      color: var(--ink);
-    }
-
-    /* Coffee and Share Buttons */
-    .action-icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      color: var(--ink-soft);
-      transition: var(--transition-smooth);
-    }
-
-    .action-icon-btn:hover {
-      border-color: var(--moss);
-      color: var(--ink);
-      background: var(--paper);
-    }
-
-    .action-icon-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    .coffee-btn-highlight {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      background: var(--moss-light);
-      border: 1px solid var(--moss-accent);
-      border-radius: var(--radius-full);
-      color: var(--moss);
-      font-size: 0.8rem;
-      font-weight: 600;
-      transition: var(--transition-smooth);
-    }
-
-    .coffee-btn-highlight:hover {
-      background: var(--moss);
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
-
-    /* -------------------------------------------------------------
-       HERO: LAYERED FOREST PARALLAX & CANOPY
-       ------------------------------------------------------------- */
-    .hero-container {
-      position: relative;
-      width: 100%;
-      min-height: 520px;
-      background: linear-gradient(180deg, var(--hero-sky-1) 0%, var(--hero-sky-2) 100%);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid var(--line);
-      padding: 60px 24px 80px;
-    }
-
-    /* Ambient Sun Rays */
-    .hero-sunburst {
-      position: absolute;
-      top: -20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1400px;
-      height: 800px;
-      background: radial-gradient(ellipse at 50% 20%, var(--hero-sun) 0%, transparent 65%);
-      opacity: 0.6;
-      pointer-events: none;
-      animation: sunGlow 8s ease-in-out infinite alternate;
-    }
-
-    @keyframes sunGlow {
-      0% { opacity: 0.5; transform: translateX(-50%) scale(1); }
-      100% { opacity: 0.75; transform: translateX(-50%) scale(1.08); }
-    }
-
-    /* Vector Background Layers */
-    .hero-layer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-position: center bottom;
-      background-repeat: no-repeat;
-      background-size: cover;
-      pointer-events: none;
-      will-change: transform;
-    }
-
-    .hero-layer-far {
-      background-image: url('assets/hero-far.svg');
-      opacity: 0.9;
-    }
-
-    .hero-layer-mid {
-      background-image: url('assets/hero-mid.svg');
-      opacity: 0.95;
-    }
-
-    .hero-layer-near {
-      background-image: url('assets/hero-near.svg');
-      opacity: 0.98;
-    }
-
-    /* Canvas Particle Overlay (Falling Leaves & Sun Motes) */
-    #heroCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    /* Hanging Lantern / Nook */
-    .hero-nook-decor {
-      position: absolute;
-      top: 0;
-      right: 8%;
-      width: 220px;
-      height: 280px;
-      background-image: url('assets/hero-nook.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      pointer-events: none;
-      z-index: 3;
-      opacity: 0.92;
-      animation: lanternSway 6s ease-in-out infinite alternate;
-      transform-origin: 50% 0;
-    }
-
-    @keyframes lanternSway {
-      0% { transform: rotate(-1.5deg); }
-      100% { transform: rotate(1.5deg); }
-    }
-
-    /* Hero Typography & Illuminated Frosted Plaque */
-    .hero-plaque {
-      position: relative;
-      z-index: 10;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 44px 48px;
-      background: var(--hero-scrim);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
-      border: 1px solid var(--hero-scrim-border);
-      border-radius: var(--radius-xl);
-      box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.15), 0 0 40px -10px var(--hero-sun);
-      text-align: center;
-      transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 14px;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-full);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--moss);
-      margin-bottom: 20px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .hero-eyebrow svg {
-      width: 14px;
-      height: 14px;
-      color: var(--moss-accent);
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.3rem, 5.2vw, 4.2rem);
-      font-weight: 600;
-      letter-spacing: -0.025em;
-      line-height: 1.15;
-      color: var(--hero-text-title);
-      margin-bottom: 18px;
-      transition: color 0.4s ease;
-    }
-
-    .hero-subtitle {
-      font-size: clamp(1rem, 1.8vw, 1.25rem);
-      font-weight: 400;
-      color: var(--hero-text-sub);
-      line-height: 1.6;
-      max-width: 680px;
-      margin: 0 auto 32px;
-      transition: color 0.4s ease;
-    }
-
-    .hero-buttons {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .hero-primary-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 26px;
-      background: var(--hero-btn-primary-bg);
-      color: var(--hero-btn-primary-text);
-      border-radius: var(--radius-full);
-      font-weight: 600;
-      font-size: 0.95rem;
-      box-shadow: 0 8px 24px -4px rgba(20, 42, 28, 0.35);
-      transition: var(--transition-smooth);
-    }
-
-    .hero-primary-btn:hover {
-      background: var(--moss-accent);
-      color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px -4px rgba(20, 42, 28, 0.45);
-    }
-
-    .hero-secondary-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 24px;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-full);
-      color: var(--ink);
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: var(--transition-smooth);
-    }
-
-    .hero-secondary-btn:hover {
-      background: var(--paper);
-      border-color: var(--line-dark);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* -------------------------------------------------------------
-       LESSON OF THE DAY SHOWCASE BANNER
-       ------------------------------------------------------------- */
-    .daily-quote-section {
-      max-width: 1360px;
-      margin: -32px auto 28px;
-      padding: 0 24px;
-      position: relative;
-      z-index: 20;
-    }
-
-    .daily-quote-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 22px 28px;
-      box-shadow: var(--shadow-md);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      position: relative;
-      overflow: hidden;
-      transition: var(--transition-smooth);
-    }
-
-    .daily-quote-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 5px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--moss-accent), var(--amber));
-    }
-
-    .quote-content {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .quote-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .quote-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--amber);
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      padding: 2px 8px;
-      border-radius: var(--radius-full);
-    }
-
-    .quote-body {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 1.15rem;
-      color: var(--ink);
-      line-height: 1.45;
-    }
-
-    .quote-author {
-      font-size: 0.85rem;
-      color: var(--ink-soft);
-      font-weight: 500;
-    }
-
-    .quote-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .quote-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--ink-soft);
-      transition: var(--transition-smooth);
-    }
-
-    .quote-btn:hover {
-      border-color: var(--moss);
-      color: var(--ink);
-      background: var(--paper);
-    }
-
-    /* -------------------------------------------------------------
-       TOPIC FILTER CHIPS & TOOLBAR
-       ------------------------------------------------------------- */
-    .toolbar-section {
-      max-width: 1360px;
-      margin: 0 auto 32px;
-      padding: 0 24px;
-    }
-
-    .toolbar-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .topic-chips {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .topic-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-full);
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--ink-soft);
-      cursor: pointer;
-      transition: var(--transition-smooth);
-      user-select: none;
-    }
-
-    .topic-chip:hover {
-      border-color: var(--moss);
-      color: var(--ink);
-    }
-
-    .topic-chip.active {
-      background: var(--forest-deep);
-      border-color: var(--forest-deep);
-      color: #ffffff;
-    }
-
-    .topic-count {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      padding: 1px 6px;
-      border-radius: 10px;
-      background: var(--paper-subtle);
-      color: var(--ink-faint);
-    }
-
-    .topic-chip.active .topic-count {
-      background: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-    }
-
-    .toolbar-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .sort-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .sort-label {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--ink-faint);
-    }
-
-    .sort-select {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      padding: 6px 12px;
-      font-size: 0.82rem;
-      color: var(--ink);
-      font-family: inherit;
-      cursor: pointer;
-      transition: var(--transition-smooth);
-    }
-
-    .sort-select:hover {
-      border-color: var(--moss);
-    }
-
-    /* -------------------------------------------------------------
-       CURATED SHELVES (CROWD FAVORITES & RECENTLY TENDED)
-       ------------------------------------------------------------- */
-    .shelf-section {
-      max-width: 1360px;
-      margin: 0 auto 40px;
-      padding: 0 24px;
-    }
-
-    .shelf-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-
-    .shelf-title-wrap {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-    }
-
-    .shelf-title {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .shelf-sub {
-      font-family: var(--font-mono);
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-faint);
-    }
-
-    .shelf-nav-arrows {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .shelf-nav-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      color: var(--ink-soft);
-      cursor: pointer;
-      transition: var(--transition-smooth);
-    }
-
-    .shelf-nav-btn:hover {
-      border-color: var(--moss);
-      color: var(--ink);
-      transform: scale(1.05);
-    }
-
-    .shelf-scroll-track {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 12px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--line) transparent;
-    }
-
-    .shelf-scroll-track::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .shelf-scroll-track::-webkit-scrollbar-thumb {
-      background: var(--line);
-      border-radius: 4px;
-    }
-
-    .shelf-scroll-track > .card {
-      flex: 0 0 320px;
-      scroll-snap-align: start;
-    }
-
-    /* -------------------------------------------------------------
-       TODAY'S HIDDEN GEM (HERO FEATURED GUIDE)
-       ------------------------------------------------------------- */
-    .featured-gem-section {
-      max-width: 1360px;
-      margin: 0 auto 40px;
-      padding: 0 24px;
-    }
-
-    .featured-gem-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 24px 30px;
-      box-shadow: var(--shadow-md);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 28px;
-      position: relative;
-      overflow: hidden;
-      background-image: radial-gradient(circle at 100% 50%, rgba(62, 168, 105, 0.08) 0%, transparent 60%);
-      transition: var(--transition-smooth);
-    }
-
-    .featured-gem-card:hover {
-      border-color: var(--moss-accent);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .gem-badge-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .gem-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      background: var(--moss-light);
-      border: 1px solid var(--moss-accent);
-      border-radius: var(--radius-full);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--moss);
-    }
-
-    .gem-title {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--ink);
-      line-height: 1.3;
-      margin-bottom: 8px;
-    }
-
-    .gem-desc {
-      font-size: 0.95rem;
-      color: var(--ink-soft);
-      line-height: 1.55;
-      max-width: 800px;
-    }
-
-    .gem-cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 24px;
-      background: var(--forest-deep);
-      color: #ffffff;
-      border-radius: var(--radius-full);
-      font-weight: 600;
-      font-size: 0.92rem;
-      white-space: nowrap;
-      transition: var(--transition-smooth);
-    }
-
-    .gem-cta-btn:hover {
-      background: var(--moss);
-      transform: translateY(-2px);
-    }
-
-    /* -------------------------------------------------------------
-       MAIN CARD GRID & CARD DESIGN
-       ------------------------------------------------------------- */
-    .catalog-section {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
-      flex: 1;
-    }
-
-    .catalog-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-
-    .catalog-title {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .catalog-status {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--ink-faint);
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
-      perspective: 1200px;
-    }
-
-    /* Card Component */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-sm);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease-out;
-      position: relative;
-      text-decoration: none;
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    .card:hover {
-      border-color: var(--moss-accent);
-      box-shadow: var(--shadow-lg);
-    }
-
-    /* Procedural SVG Cover */
-    .card-cover {
-      width: 100%;
-      height: 140px;
-      position: relative;
-      overflow: hidden;
-      background: var(--paper-warm);
-      flex-shrink: 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .card-cover-svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .card:hover .card-cover-svg {
-      transform: scale(1.04);
-    }
-
-    /* Call Number Stamp on Cover */
-    .card-call-no {
-      position: absolute;
-      top: 10px;
-      left: 12px;
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      padding: 3px 8px;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      color: #ffffff;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-    }
-
-    .card-badges-top {
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .card-badge {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: var(--radius-full);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .badge-new {
-      background: #10b981;
-      color: #ffffff;
-    }
-
-    .badge-recent {
-      background: var(--moss);
-      color: #ffffff;
-    }
-
-    .badge-visited {
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--moss);
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-
-    /* Card Body */
-    .card-body {
-      padding: 18px 20px 16px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      gap: 10px;
-    }
-
-    .card-topic-tag {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--moss);
-      font-weight: 600;
-    }
-
-    .card-title {
-      font-family: var(--font-display);
-      font-size: 1.18rem;
-      font-weight: 600;
-      color: var(--ink);
-      line-height: 1.35;
-      letter-spacing: -0.01em;
-    }
-
-    .card:hover .card-title {
-      color: var(--moss);
-    }
-
-    .card-desc {
-      font-size: 0.88rem;
-      color: var(--ink-soft);
-      line-height: 1.55;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      flex: 1;
-    }
-
-    /* Card Footer */
-    .card-footer {
-      padding: 12px 20px;
-      border-top: 1px solid var(--line);
-      background: var(--paper-warm);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .card-meta-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--ink-faint);
-    }
-
-    .meta-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .meta-item svg {
-      width: 13px;
-      height: 13px;
-    }
-
-    /* Heart Button & Leaf Burst */
-    .heart-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      border-radius: var(--radius-full);
-      background: var(--paper);
-      border: 1px solid var(--line);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--ink-soft);
-      cursor: pointer;
-      position: relative;
-      transition: var(--transition-smooth);
-    }
-
-    .heart-btn:hover {
-      border-color: #ef4444;
-      color: #ef4444;
-      background: #fff5f5;
-    }
-
-    .heart-btn[aria-pressed="true"] {
-      border-color: #ef4444;
-      background: #fee2e2;
-      color: #dc2626;
-      font-weight: 600;
-    }
-
-    .heart-btn svg {
-      width: 14px;
-      height: 14px;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .heart-btn[aria-pressed="true"] svg {
-      fill: #ef4444;
-      stroke: #ef4444;
-      transform: scale(1.15);
-    }
-
-    /* Leaf burst particle */
-    .leaf-burst-particle {
-      position: absolute;
-      pointer-events: none;
-      width: 12px;
-      height: 12px;
-      z-index: 50;
-      animation: leafBurst 0.6s ease-out forwards;
-    }
-
-    @keyframes leafBurst {
-      0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(0.6) rotate(0deg);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--dx), var(--dy)) scale(1.2) rotate(var(--rot));
-      }
-    }
-
-    /* -------------------------------------------------------------
-       COMMAND PALETTE (CTRL+K / ⌘+K)
-       ------------------------------------------------------------- */
-    .cmd-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(12, 20, 15, 0.65);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 1000;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 80px 20px 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .cmd-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .cmd-dialog {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 640px;
-      box-shadow: 0 30px 90px -15px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-      transform: scale(0.96) translateY(-10px);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .cmd-overlay.open .cmd-dialog {
-      transform: scale(1) translateY(0);
-    }
-
-    .cmd-search-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--line);
-      background: var(--paper-warm);
-    }
-
-    .cmd-search-header svg {
-      width: 20px;
-      height: 20px;
-      color: var(--moss);
-      flex-shrink: 0;
-    }
-
-    .cmd-input {
-      flex: 1;
-      border: none;
-      background: none;
-      font-size: 1.05rem;
-      font-family: inherit;
-      color: var(--ink);
-      outline: none;
-    }
-
-    .cmd-close-hint {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      background: var(--forest-canvas);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      color: var(--ink-faint);
-    }
-
-    .cmd-results {
-      max-height: 380px;
-      overflow-y: auto;
-      padding: 10px 0;
-      list-style: none;
-    }
-
-    .cmd-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 12px 20px;
-      cursor: pointer;
-      border-left: 3px solid transparent;
-      transition: background 0.15s ease, border-color 0.15s ease;
-    }
-
-    .cmd-item:hover, .cmd-item.selected {
-      background: var(--paper-warm);
-      border-left-color: var(--moss-accent);
-    }
-
-    .cmd-item-left {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 0;
-    }
-
-    .cmd-item-title {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--ink);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .cmd-item-meta {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--ink-faint);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .cmd-item-right {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--moss);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-
-    .cmd-footer {
-      padding: 10px 20px;
-      background: var(--forest-canvas);
-      border-top: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--ink-faint);
-    }
-
-    .cmd-shortcuts {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* -------------------------------------------------------------
-       READING JOURNEY MODAL
-       ------------------------------------------------------------- */
-    .journey-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(12, 20, 15, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .journey-modal-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .journey-modal {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 500px;
-      padding: 30px;
-      box-shadow: var(--shadow-lg);
-      text-align: center;
-      position: relative;
-    }
-
-    .journey-tree-illustration {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 16px;
-    }
-
-    .journey-title {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-
-    .journey-subtitle {
-      font-size: 0.9rem;
-      color: var(--ink-soft);
-      margin-bottom: 20px;
-    }
-
-    .journey-progress-bar {
-      width: 100%;
-      height: 8px;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-full);
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-
-    .journey-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--moss-accent), var(--amber));
-      border-radius: var(--radius-full);
-      transition: width 0.6s ease;
-    }
-
-    .journey-stats-row {
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--ink-faint);
-      margin-bottom: 24px;
-    }
-
-    /* -------------------------------------------------------------
-       BUY ME A COFFEE MODAL
-       ------------------------------------------------------------- */
-    .coffee-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(12, 20, 15, 0.65);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .coffee-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .coffee-dialog {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 440px;
-      padding: 28px;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-    }
-
-    .modal-close-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      color: var(--ink-soft);
-      cursor: pointer;
-      transition: var(--transition-smooth);
-    }
-
-    .modal-close-btn:hover {
-      border-color: var(--moss);
-      color: var(--ink);
-    }
-
-    .coffee-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .coffee-header h3 {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-
-    .coffee-header p {
-      font-size: 0.88rem;
-      color: var(--ink-soft);
-      line-height: 1.5;
-    }
-
-    .coffee-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 18px;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 12px;
-    }
-
-    .coffee-tab-btn {
-      flex: 1;
-      padding: 8px;
-      border-radius: var(--radius-md);
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--ink-soft);
-      background: var(--paper-warm);
-      border: 1px solid var(--line);
-      font-weight: 500;
-      transition: var(--transition-smooth);
-    }
-
-    .coffee-tab-btn.active {
-      background: var(--forest-deep);
-      border-color: var(--forest-deep);
-      color: #ffffff;
-    }
-
-    .coffee-qr-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .coffee-qr-img {
-      width: 220px;
-      height: auto;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow-sm);
-      background: #ffffff;
-      padding: 6px;
-    }
-
-    /* -------------------------------------------------------------
-       SHARE MENU & TOAST NOTIFICATION
-       ------------------------------------------------------------- */
-    .share-menu {
-      position: absolute;
-      top: 50px;
-      right: 20px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
-      padding: 8px;
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      z-index: 105;
-      min-width: 180px;
-    }
-
-    .share-menu.open {
-      display: flex;
-    }
-
-    .share-item-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 0.82rem;
-      color: var(--ink-soft);
-      transition: var(--transition-smooth);
-      text-align: left;
-    }
-
-    .share-item-btn:hover {
-      background: var(--paper-warm);
-      color: var(--ink);
-    }
-
-    .share-item-btn svg {
-      width: 15px;
-      height: 15px;
-      flex-shrink: 0;
-    }
-
-    .share-toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--forest-deep);
-      color: #ffffff;
-      padding: 10px 18px;
-      border-radius: var(--radius-full);
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      box-shadow: var(--shadow-lg);
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      z-index: 2000;
-      pointer-events: none;
-    }
-
-    .share-toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* -------------------------------------------------------------
-       SITE FOOTER
-       ------------------------------------------------------------- */
-    .site-footer {
-      border-top: 1px solid var(--line);
-      background: var(--paper);
-      padding: 48px 24px 32px;
-      margin-top: auto;
-    }
-
-    .footer-inner {
-      max-width: 1360px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .footer-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .footer-brand-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .footer-links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      font-size: 0.85rem;
-      color: var(--ink-soft);
-    }
-
-    .footer-links a:hover {
-      color: var(--moss);
-    }
-
-    .footer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--ink-faint);
-      border-top: 1px solid var(--line);
-      padding-top: 20px;
-    }
-
-    /* -------------------------------------------------------------
-       PREFERS-REDUCED-MOTION COMPLIANCE
-       ------------------------------------------------------------- */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-      .card {
-        transform: none !important;
-      }
-      .hero-sunburst, .hero-nook-decor {
-        animation: none !important;
-      }
-      #heroCanvas {
-        display: none !important;
-      }
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 820px) {
-      .header-inner { padding: 10px 16px; }
-      .search-kbd { display: none; }
-      .hero-container { min-height: 440px; padding: 40px 16px 60px; }
-      .hero-plaque { padding: 32px 20px; }
-      .hero-nook-decor { display: none; }
-      .daily-quote-card { flex-direction: column; align-items: flex-start; }
-      .featured-gem-card { grid-template-columns: 1fr; }
-      .card-grid { grid-template-columns: 1fr; }
-    }
-  </style>
 </head>
 <body>
+  <div data-sc-progress aria-hidden="true"></div>
+  <div class="sc-grain" aria-hidden="true"></div>
 
-  <!-- ==========================================
-       STICKY HEADER WITH GLASS EFFECT
-       ========================================== -->
-  <header class="site-header" id="siteHeader">
-    <div class="header-inner">
-      <div class="logo-group">
-        <div class="logo-icon">
-          <!-- Sprouting Leaf in Book SVG -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="#7bc67e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- ========================================================================
+       GALLERY INDEX NAVIGATION BAR
+       ======================================================================== -->
+  <header class="index-bar" id="siteHeader">
+    <div class="index-bar__inner">
+      <a href="#atrium" class="brand-mark" aria-label="The Library of Lessons Home">
+        <span class="brand-mark__emblem" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
             <path d="M12 6v6"/>
             <path d="M15 8l-3-2-3 2"/>
           </svg>
-        </div>
-        <div class="logo-text">
-          <h1>The Library of Lessons</h1>
-          <span>Archival Edition · 2.0</span>
-        </div>
-      </div>
+        </span>
+        <span class="brand-mark__title">The Library of Lessons</span>
+      </a>
 
-      <div class="header-actions">
-        <!-- Reading Journey Progress Pill -->
-        <button class="journey-pill" id="journeyPill" title="View your reading journey progress" aria-label="Reading Journey">
-          <svg class="journey-tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <nav class="index-rooms" aria-label="Archive sections">
+        <a href="#dailyLesson" class="index-rooms__link">Daily Lesson</a>
+        <a href="#readingRoom" class="index-rooms__link">Reading Room</a>
+        <a href="#completeArchive" class="index-rooms__link">Complete Archive</a>
+        <a href="#colophon" class="index-rooms__link">Colophon</a>
+      </nav>
+
+      <div class="index-tools">
+        <button class="tool-btn tool-btn--mono" id="journeyPill" type="button" title="View your reading journey" aria-label="Reading journey progress">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
             <path d="M12 22v-8"/>
             <path d="M9 14c-2.5 0-4-2-4-4.5 0-3 2.5-4.5 7-4.5s7 1.5 7 4.5c0 2.5-1.5 4.5-4 4.5"/>
-            <path d="M12 7V3"/>
           </svg>
-          <span id="journeySummary">0 / 0</span>
+          <span id="journeySummary">0 / 8</span>
         </button>
 
-        <!-- Command Palette Trigger Button -->
-        <button class="search-trigger-btn" id="searchTriggerBtn" title="Search guides (Ctrl + K)" aria-label="Search catalog">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <button class="tool-btn" id="searchTriggerBtn" type="button" title="Search guides (Ctrl+K)" aria-label="Search lessons">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+            <circle cx="11" cy="11" r="7.5"/>
+            <line x1="20" y1="20" x2="16.5" y2="16.5"/>
           </svg>
-          <span>Search...</span>
-          <kbd class="search-kbd">⌘K</kbd>
+          <span class="tool-btn__label">Search</span>
+          <kbd class="kbd-hint">⌘K</kbd>
         </button>
 
-        <!-- Time-of-Day Switcher Pill -->
-        <button class="daypart-btn" id="daypartToggle" title="Cycle Time-of-Day theme" aria-label="Theme mode">
-          <span id="daypartIcon">☀️</span>
+        <button class="light-dial" id="daypartToggle" type="button" title="Shift reading light atmosphere" aria-label="Switch reading light">
+          <span class="light-dial__dot" aria-hidden="true"></span>
           <span id="daypartName">Day</span>
         </button>
 
-        <!-- Buy Me a Coffee Button -->
-        <button class="coffee-btn-highlight" id="coffeeBtn" title="Support the library" aria-label="Buy me a coffee">
-          <span>☕</span>
-          <span>Coffee</span>
+        <button class="tool-btn tool-btn--accent" id="coffeeBtn" type="button" title="Support the library" aria-label="Support the library">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="2" x2="6" y2="4"/>
+            <line x1="10" y1="2" x2="10" y2="4"/>
+            <line x1="14" y1="2" x2="14" y2="4"/>
+          </svg>
+          <span class="tool-btn__label">Support</span>
         </button>
 
-        <!-- Share Sheet Trigger Button -->
-        <div style="position:relative;">
-          <button class="action-icon-btn" id="shareBtn" title="Share library" aria-label="Share">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        <div class="share-wrap">
+          <button class="tool-btn tool-btn--icon" id="shareBtn" type="button" title="Share archive" aria-label="Share archive">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+              <circle cx="18" cy="5" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
             </svg>
           </button>
-
-          <!-- Share Fallback Menu -->
-          <div class="share-menu" id="shareMenu">
-            <button class="share-item-btn" data-share="copy">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <div class="share-menu" id="shareMenu" role="menu">
+            <button class="share-item-btn" type="button" data-share="copy" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               <span>Copy Link</span>
             </button>
-            <button class="share-item-btn" data-share="x">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+            <button class="share-item-btn" type="button" data-share="x" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4l11.733 16h4.267l-11.733-16z"/><path d="M4 20l6.768-6.768m2.46-2.46l6.772-6.772"/></svg>
               <span>Share on X</span>
             </button>
-            <button class="share-item-btn" data-share="facebook">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <button class="share-item-btn" type="button" data-share="facebook" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               <span>Share on Facebook</span>
             </button>
-            <button class="share-item-btn" data-share="whatsapp">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <button class="share-item-btn" type="button" data-share="whatsapp" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
               <span>WhatsApp</span>
             </button>
           </div>
@@ -1938,1691 +117,334 @@
     </div>
   </header>
 
-  <!-- ==========================================
-       HERO: LAYERED FOREST PARALLAX & CANOPY
-       ========================================== -->
-  <section class="hero-container" id="hero">
-    <!-- Sun Ray Glow -->
-    <div class="hero-sunburst"></div>
-
-    <!-- Parallax Vector Layers -->
-    <div class="hero-layer hero-layer-far" id="heroFar"></div>
-    <div class="hero-layer hero-layer-mid" id="heroMid"></div>
-    <canvas id="heroCanvas"></canvas>
-    <div class="hero-layer hero-layer-near" id="heroNear"></div>
-    
-    <!-- Cozy Library Nook & Lantern -->
-    <div class="hero-nook-decor"></div>
-
-    <!-- Hero Content Plaque with Enhanced Contrast Scrim -->
-    <div class="hero-plaque">
-      <div class="hero-eyebrow">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-        </svg>
-        <span>The Living Archive · Open Access</span>
+  <main>
+    <!-- ======================================================================
+         ACT 1: THE ATRIUM (MULTI-PLANE DIMENSIONAL PHOTOGRAPHIC HERO)
+         ====================================================================== -->
+    <section class="atrium" id="atrium" data-sc-act="flow">
+      <!-- Plane 1: Far Misty Cedar Canopy -->
+      <div class="atrium__plane-bg" data-sc-parallax="-0.7" aria-hidden="true">
+        <img src="assets/hero-canopy.jpg" width="1408" height="768" alt="" decoding="async" fetchpriority="high">
       </div>
 
-      <h1 class="hero-title">Knowledge Grown with Intention</h1>
-      <p class="hero-subtitle">
-        Distilled wisdom, practical frameworks, and quiet lessons for leadership, peace of mind, and the craft of living well.
-      </p>
+      <!-- Plane 2: Atmospheric Reading Light Veil -->
+      <div class="atrium__plane-light" aria-hidden="true"></div>
 
-      <div class="hero-buttons">
-        <button class="hero-primary-btn" id="heroSearchBtn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span>Search Lessons</span>
-          <kbd class="search-kbd" style="background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); color:inherit;">⌘K</kbd>
-        </button>
+      <!-- Plane 3: Directional Sibling Scrim -->
+      <div class="atrium__scrim" aria-hidden="true"></div>
 
-        <a href="#featuredGem" class="hero-secondary-btn">
-          <span>✨ Explore Today's Gem</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================
-       LESSON OF THE DAY (100 Timeless Quotes)
-       ========================================== -->
-  <section class="daily-quote-section">
-    <div class="daily-quote-card">
-      <div class="quote-content">
-        <div class="quote-header">
-          <span class="quote-badge">🌿 Daily Lesson</span>
-          <span class="quote-author" id="dailyQuoteAuthor">Marcus Aurelius</span>
+      <div class="atrium__grid">
+        <!-- Plane 4: Semantic Editorial Copy (1x scroll) -->
+        <div class="atrium__copy">
+          <h1 class="atrium__title">Knowledge Grown with Intention</h1>
+          <p class="atrium__subtitle">
+            Distilled wisdom, practical frameworks, and quiet lessons for leadership, peace of mind, and the craft of living well.
+          </p>
+          <div class="atrium__actions">
+            <button class="btn-primary" id="heroSearchBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7.5"/>
+                <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+              </svg>
+              <span>Search Lessons</span>
+              <kbd class="kbd-hint">⌘K</kbd>
+            </button>
+            <a href="#completeArchive" class="btn-secondary">
+              <span>Enter Archive</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
         </div>
-        <blockquote class="quote-body" id="dailyQuoteText">
-          "The impediment to action advances action. What stands in the way becomes the way."
-        </blockquote>
-      </div>
-      <div class="quote-actions">
-        <button class="quote-btn" id="copyQuoteBtn" title="Copy quote to clipboard">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span>Copy</span>
-        </button>
-      </div>
-    </div>
-  </section>
 
-  <!-- ==========================================
-       TODAY'S HIDDEN GEM (Featured Pick)
-       ========================================== -->
-  <section class="featured-gem-section" id="featuredGem">
-    <div class="featured-gem-card" id="gemCard">
-      <div class="gem-left">
-        <div class="gem-badge-wrap">
-          <span class="gem-badge">✨ Today's Hidden Gem</span>
-          <span class="topic-count" id="gemTopic">Leadership</span>
-        </div>
-        <h2 class="gem-title" id="gemTitle">The CARE Framework for Connecting with Others</h2>
-        <p class="gem-desc" id="gemDesc">
-          Discover four Scripture-rooted habits (Curiosity, Acceptance, Reach out, Empathy) for truly connecting with coworkers, family, and friends.
-        </p>
-      </div>
-      <a href="#" target="_blank" rel="noopener noreferrer" class="gem-cta-btn" id="gemLink">
-        <span>Read Guide</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- ==========================================
-       CURATED SHELVES: CROWD FAVORITES
-       ========================================== -->
-  <section class="shelf-section" id="crowdShelfSection">
-    <div class="shelf-header">
-      <div class="shelf-title-wrap">
-        <h3 class="shelf-title">❤️ Crowd Favorites</h3>
-        <span class="shelf-sub" id="crowdCount">Most Appreciated</span>
-      </div>
-      <div class="shelf-nav-arrows">
-        <button class="shelf-nav-btn" id="crowdPrevBtn" aria-label="Previous items">←</button>
-        <button class="shelf-nav-btn" id="crowdNextBtn" aria-label="Next items">→</button>
-      </div>
-    </div>
-    <div class="shelf-scroll-track" id="crowdScrollTrack">
-      <!-- Injected dynamically -->
-    </div>
-  </section>
-
-  <!-- ==========================================
-       CURATED SHELVES: RECENTLY TENDED
-       ========================================== -->
-  <section class="shelf-section" id="recentShelfSection">
-    <div class="shelf-header">
-      <div class="shelf-title-wrap">
-        <h3 class="shelf-title">🌱 Recently Tended</h3>
-        <span class="shelf-sub" id="recentCount">Latest Additions & Revisions</span>
-      </div>
-      <div class="shelf-nav-arrows">
-        <button class="shelf-nav-btn" id="recentPrevBtn" aria-label="Previous items">←</button>
-        <button class="shelf-nav-btn" id="recentNextBtn" aria-label="Next items">→</button>
-      </div>
-    </div>
-    <div class="shelf-scroll-track" id="recentScrollTrack">
-      <!-- Injected dynamically -->
-    </div>
-  </section>
-
-  <!-- ==========================================
-       TOOLBAR: TOPIC CHIPS & SORTING
-       ========================================== -->
-  <section class="toolbar-section" id="catalogToolbar">
-    <div class="toolbar-inner">
-      <div class="topic-chips" id="topicChips">
-        <button class="topic-chip active" data-topic="all">
-          <span>All Lessons</span>
-          <span class="topic-count" id="countAll">0</span>
-        </button>
-        <button class="topic-chip" data-topic="Leadership">
-          <span>🏔️ Leadership</span>
-          <span class="topic-count" id="countLeadership">0</span>
-        </button>
-        <button class="topic-chip" data-topic="Mind & Calm">
-          <span>🌊 Mind & Calm</span>
-          <span class="topic-count" id="countMind">0</span>
-        </button>
-        <button class="topic-chip" data-topic="Work & Systems">
-          <span>⚙️ Work & Systems</span>
-          <span class="topic-count" id="countWork">0</span>
-        </button>
-        <button class="topic-chip" data-topic="Connection">
-          <span>🤝 Connection</span>
-          <span class="topic-count" id="countConnection">0</span>
-        </button>
-        <button class="topic-chip" data-topic="Wisdom">
-          <span>📜 Wisdom</span>
-          <span class="topic-count" id="countWisdom">0</span>
-        </button>
-        <button class="topic-chip" data-topic="Growth & Habits">
-          <span>🌱 Growth</span>
-          <span class="topic-count" id="countGrowth">0</span>
-        </button>
-      </div>
-
-      <div class="toolbar-controls">
-        <div class="sort-group">
-          <label for="sortSelect" class="sort-label">Order</label>
-          <select id="sortSelect" class="sort-select">
-            <option value="recent">Recently updated</option>
-            <option value="added">Newest added</option>
-            <option value="alpha">Title (A-Z)</option>
-            <option value="hearts">Most hearts</option>
-            <option value="unvisited">Unread first</option>
-          </select>
+        <!-- Plane 5: Architectural Library Pavilion Window (independent depth rate) -->
+        <div class="atrium__pavilion-wrap" data-sc-parallax="-1.25">
+          <figure class="atrium__pavilion">
+            <img src="assets/hero-pavilion.jpg" width="1280" height="960" alt="Cedar timber reading pavilion surrounded by tall evergreens">
+          </figure>
+          <div class="atrium__plate-caption">
+            <span>Open Access Living Archive</span>
+            <span>Light: <strong id="atriumLightStatus">Sunlit Canopy</strong></span>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ==========================================
-       MAIN CATALOG GRID
-       ========================================== -->
-  <main class="catalog-section">
-    <div class="catalog-header">
-      <h2 class="catalog-title">The Complete Archive</h2>
-      <span class="catalog-status" id="catalogStatus">Loading lessons...</span>
-    </div>
+      <!-- Floor Fade (prevents hard clip seam on parallax planes) -->
+      <div class="atrium__floor-fade" aria-hidden="true"></div>
+    </section>
 
-    <div class="card-grid" id="mainCardGrid">
-      <!-- Cards rendered dynamically -->
-    </div>
+    <!-- ======================================================================
+         ACT 2: DAILY LESSON & TODAY'S HIDDEN GEM (QUIET VELLUM PAUSE)
+         ====================================================================== -->
+    <section class="reflection-act" id="dailyLesson" data-sc-act="flow">
+      <div class="sc-wrap">
+        <div class="daily-lesson" data-sc-in>
+          <div class="daily-lesson__meta">
+            <span class="museum-tag">Daily Lesson</span>
+          </div>
+          <blockquote class="daily-lesson__quote" id="dailyQuoteText">
+            "The impediment to action advances action. What stands in the way becomes the way."
+          </blockquote>
+          <div class="daily-lesson__foot">
+            <cite class="daily-lesson__author" id="dailyQuoteAuthor">Marcus Aurelius</cite>
+            <button class="copy-quote-btn" id="copyQuoteBtn" type="button" title="Copy quote to clipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>Copy Quote</span>
+            </button>
+          </div>
+        </div>
+
+        <article class="hidden-gem" id="featuredGem">
+          <figure class="hidden-gem__media" data-sc-reveal="up" data-sc-reveal-at="0.06 0.44">
+            <img src="assets/gem-desk.jpg" width="1248" height="832" alt="Open linen-bound book on a walnut reading desk beside a stoneware teacup">
+          </figure>
+
+          <div class="hidden-gem__body" data-sc-in data-sc-stagger="60">
+            <div class="hidden-gem__taxonomy">
+              <span>Today's Hidden Gem</span>
+              <span>·</span>
+              <span class="hidden-gem__topic" id="gemTopic">Connection</span>
+            </div>
+            <h2 class="hidden-gem__title" id="gemTitle">The CARE Framework for Connecting with Others</h2>
+            <p class="hidden-gem__desc" id="gemDesc">
+              Discover four Scripture-rooted habits (Curiosity, Acceptance, Reach out, Empathy) for truly connecting with coworkers, family, and friends.
+            </p>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-dark" id="gemLink">
+              <span>Read Guide</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ACT 3: THE CURATED READING ROOM (THE ENGINEERED PEAK — PINNED PAN)
+         ====================================================================== -->
+    <section class="reading-room" id="readingRoom" data-sc-act="pan" data-sc-span="4.2">
+      <div class="reading-room__stage" data-sc-stage>
+        <div class="reading-room__head">
+          <div>
+            <h2 class="reading-room__title">The Curated Reading Room</h2>
+          </div>
+
+          <div class="reading-room__controls">
+            <div class="shelf-switch" role="tablist" aria-label="Curated shelves">
+              <button class="shelf-switch__btn is-active" type="button" role="tab" aria-selected="true" data-shelf-mode="favorites">Crowd Favorites</button>
+              <button class="shelf-switch__btn" type="button" role="tab" aria-selected="false" data-shelf-mode="recent">Recently Tended</button>
+            </div>
+            <div class="reading-room__census">
+              <strong id="archiveCensusCount" data-sc-count="0 8" data-sc-count-at="0 0.14">8</strong> cataloged volumes
+            </div>
+          </div>
+        </div>
+
+        <div class="reading-room__rail-wrap">
+          <div class="folio-rail" id="readingRoomRail" data-sc-pan="0.06">
+            <!-- Populated dynamically with curated folios -->
+          </div>
+        </div>
+
+        <!-- Signature Move: Scroll-Synchronized Shelf Compass -->
+        <div class="shelf-compass" aria-live="polite">
+          <div class="shelf-compass__readout">
+            Folio <strong id="compassCall">LOL · 001</strong>
+          </div>
+          <div class="shelf-compass__track" aria-hidden="true">
+            <div class="shelf-compass__fill"></div>
+          </div>
+          <div class="shelf-compass__title" id="compassTitle">Loading shelf...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ACT 4: THE COMPLETE ARCHIVE (WALKABLE CATALOG)
+         ====================================================================== -->
+    <section class="archive-act" id="completeArchive" data-sc-act="flow">
+      <div class="sc-wrap">
+        <div class="archive-head" data-sc-in>
+          <h2 class="archive-head__title">The Complete Archive</h2>
+          <span class="archive-head__status" id="catalogStatus">Loading lessons...</span>
+        </div>
+
+        <div class="archive-toolbar" id="catalogToolbar">
+          <div class="topic-chips" id="topicChips" role="group" aria-label="Filter by discipline">
+            <button class="topic-chip active" type="button" data-topic="all">
+              <span>All Lessons</span>
+              <span class="topic-count" id="countAll">0</span>
+            </button>
+            <button class="topic-chip" type="button" data-topic="Leadership">
+              <span>Leadership</span>
+              <span class="topic-count" id="countLeadership">0</span>
+            </button>
+            <button class="topic-chip" type="button" data-topic="Mind & Calm">
+              <span>Mind &amp; Calm</span>
+              <span class="topic-count" id="countMind">0</span>
+            </button>
+            <button class="topic-chip" type="button" data-topic="Work & Systems">
+              <span>Work &amp; Systems</span>
+              <span class="topic-count" id="countWork">0</span>
+            </button>
+            <button class="topic-chip" type="button" data-topic="Connection">
+              <span>Connection</span>
+              <span class="topic-count" id="countConnection">0</span>
+            </button>
+            <button class="topic-chip" type="button" data-topic="Wisdom">
+              <span>Wisdom</span>
+              <span class="topic-count" id="countWisdom">0</span>
+            </button>
+            <button class="topic-chip" type="button" data-topic="Growth & Habits">
+              <span>Growth &amp; Habits</span>
+              <span class="topic-count" id="countGrowth">0</span>
+            </button>
+          </div>
+
+          <div class="sort-group">
+            <label for="sortSelect" class="sort-label">Order</label>
+            <select id="sortSelect" class="sort-select">
+              <option value="recent">Recently updated</option>
+              <option value="added">Newest added</option>
+              <option value="alpha">Title (A-Z)</option>
+              <option value="hearts">Most hearts</option>
+              <option value="unvisited">Unread first</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="catalog-grid" id="mainCardGrid">
+          <!-- Archival catalog plates rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ACT 5: THE COLOPHON & PATRONAGE PLATE (RESOLVING CLOSE)
+         ====================================================================== -->
+    <footer class="colophon-act" id="colophon" data-sc-act="flow">
+      <div class="sc-wrap">
+        <div class="colophon-grid">
+          <div class="colophon-grove" data-sc-in>
+            <h2 class="colophon-grove__title" id="colophonStage">A Seed Is Planted</h2>
+            <p class="colophon-grove__desc" id="colophonGroveDesc">
+              You have explored 0 of 8 distilled lessons. Progress stays private in your browser.
+            </p>
+            <div class="grove-meter">
+              <div class="grove-meter__bar">
+                <div class="grove-meter__fill" id="colophonProgressFill"></div>
+              </div>
+              <div class="grove-meter__stats">
+                <strong id="colophonPercent">0% explored</strong>
+                <span id="colophonRemaining">8 unread</span>
+              </div>
+            </div>
+            <button class="colophon-btn" id="colophonUnreadBtn" type="button">Filter Unread Lessons</button>
+          </div>
+
+          <div class="colophon-plate" data-sc-reveal="left" data-sc-reveal-at="0.06 0.42">
+            <div>
+              <p class="colophon-plate__label">Archival Colophon</p>
+              <p class="colophon-plate__text">
+                Every guide in The Library of Lessons is handcrafted with patience and kept open for all readers. If a lesson brought you clarity or peace, you can help sustain the archive.
+              </p>
+            </div>
+            <div class="colophon-plate__actions">
+              <button class="colophon-btn colophon-btn--primary" id="colophonCoffeeBtn" type="button">Support the Library</button>
+              <button class="colophon-btn" id="colophonShareBtn" type="button">Copy Archive Link</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="colophon-base">
+          <span>The Library of Lessons. Open knowledge for human growth.</span>
+          <div class="colophon-base__links">
+            <a href="https://github.com/The-Library-Of-Lessons" target="_blank" rel="noopener noreferrer">GitHub Organization</a>
+            <a href="#atrium">Return to Atrium</a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </main>
 
-  <!-- ==========================================
-       COMMAND PALETTE DIALOG (Ctrl+K / ⌘+K)
-       ========================================== -->
-  <div class="cmd-overlay" id="cmdOverlay" role="dialog" aria-modal="true" aria-label="Search Catalog">
-    <div class="cmd-dialog">
+  <!-- ========================================================================
+       COMMAND PALETTE DIALOG (CTRL+K / ⌘K / /)
+       ======================================================================== -->
+  <div class="modal-overlay modal-overlay--top" id="cmdOverlay" role="dialog" aria-modal="true" aria-label="Search Catalog">
+    <div class="modal-dialog">
       <div class="cmd-search-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7.5"/>
+          <line x1="20" y1="20" x2="16.5" y2="16.5"/>
         </svg>
-        <input type="text" id="cmdInput" class="cmd-input" placeholder="Type a title, topic, or keyword..." autocomplete="off">
-        <kbd class="cmd-close-hint">ESC</kbd>
+        <input type="text" id="cmdInput" class="cmd-input" placeholder="Search by title, discipline, or keyword..." autocomplete="off">
+        <kbd class="kbd-hint">ESC</kbd>
       </div>
-
-      <ul class="cmd-results" id="cmdResults">
-        <!-- Results injected here -->
-      </ul>
-
+      <ul class="cmd-results" id="cmdResults"></ul>
       <div class="cmd-footer">
-        <div class="cmd-shortcuts">
-          <span><kbd class="search-kbd">↑</kbd> <kbd class="search-kbd">↓</kbd> Navigate</span>
-          <span><kbd class="search-kbd">↵</kbd> Open Guide</span>
-        </div>
-        <span id="cmdResultCount">0 guides found</span>
+        <span>Arrows to navigate, Enter to open</span>
+        <span id="cmdResultCount">0 guides</span>
       </div>
     </div>
   </div>
 
-  <!-- ==========================================
+  <!-- ========================================================================
        READING JOURNEY MODAL
-       ========================================== -->
-  <div class="journey-modal-overlay" id="journeyModal" role="dialog" aria-modal="true" aria-label="Reading Journey Progress">
-    <div class="journey-modal">
-      <button class="modal-close-btn" id="journeyCloseBtn" aria-label="Close dialog">✕</button>
-      
-      <!-- Interactive Dynamic SVG Tree -->
-      <svg class="journey-tree-illustration" id="journeyTreeSvg" viewBox="0 0 100 100">
-        <defs>
-          <linearGradient id="treeGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#3ea869"/>
-            <stop offset="100%" stop-color="#162a1e"/>
-          </linearGradient>
-        </defs>
-        <circle cx="50" cy="50" r="46" fill="var(--paper-warm)" stroke="var(--line)" stroke-width="2"/>
-        <!-- Trunk -->
-        <path d="M46 80 L54 80 L52 50 L48 50 Z" fill="#6d4c41"/>
-        <!-- Foliage Rings -->
-        <circle cx="50" cy="42" r="22" fill="url(#treeGrad)" opacity="0.9"/>
-        <circle cx="42" cy="36" r="14" fill="#52b788" opacity="0.8"/>
-        <circle cx="58" cy="38" r="12" fill="#74c69d" opacity="0.8"/>
-        <circle cx="50" cy="28" r="10" fill="#95d5b2" opacity="0.9"/>
-      </svg>
-
-      <h3 class="journey-title" id="journeyStageTitle">Your Forest is Growing</h3>
-      <p class="journey-subtitle" id="journeyDesc">You have explored 0 of 0 lessons in the library.</p>
-
-      <div class="journey-progress-bar">
-        <div class="journey-progress-fill" id="journeyProgressFill" style="width: 0%;"></div>
+       ======================================================================== -->
+  <div class="modal-overlay" id="journeyModal" role="dialog" aria-modal="true" aria-label="Reading Journey Progress">
+    <div class="modal-dialog modal-dialog--narrow">
+      <button class="modal-close-btn" id="journeyCloseBtn" type="button" aria-label="Close dialog">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <p class="museum-tag" style="margin: 0 0 0.5rem;">Reading Grove</p>
+      <h3 class="journey-modal__title" id="journeyStageTitle">A Seed Is Planted</h3>
+      <p class="journey-modal__sub" id="journeyDesc">You have explored 0 of 8 lessons in the library.</p>
+      <div class="journey-modal__bar">
+        <div class="journey-modal__fill" id="journeyProgressFill"></div>
       </div>
-
-      <div class="journey-stats-row">
+      <div class="journey-modal__stats">
         <span>Completion: <strong id="journeyPercent">0%</strong></span>
-        <span>Remaining: <strong id="journeyRemaining">0</strong></span>
+        <span id="journeyRemaining">8 remaining</span>
       </div>
-
-      <button class="hero-primary-btn" id="journeyFilterBtn" style="width:100%; justify-content:center;">
-        <span>Filter to Unread Lessons</span>
+      <button class="btn-dark" id="journeyFilterBtn" type="button" style="width: 100%; justify-content: center;">
+        Filter Unread Lessons
       </button>
     </div>
   </div>
 
-  <!-- ==========================================
-       BUY ME A COFFEE MODAL
-       ========================================== -->
-  <div class="coffee-overlay" id="coffeeModal" role="dialog" aria-modal="true" aria-label="Buy me a coffee">
-    <div class="coffee-dialog">
-      <button class="modal-close-btn" id="coffeeCloseBtn" aria-label="Close dialog">✕</button>
-
+  <!-- ========================================================================
+       SUPPORT / BUY ME A COFFEE MODAL (GCASH & MARIBANK)
+       ======================================================================== -->
+  <div class="modal-overlay" id="coffeeModal" role="dialog" aria-modal="true" aria-label="Support the Library">
+    <div class="modal-dialog modal-dialog--narrow">
+      <button class="modal-close-btn" id="coffeeCloseBtn" type="button" aria-label="Close dialog">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
       <div class="coffee-header">
-        <span style="font-size:2rem; display:block; margin-bottom:6px;">☕</span>
         <h3>Support the Library</h3>
         <p>If these lessons gave you clarity, perspective, or peace, your gift keeps the archive open and free for all readers.</p>
       </div>
-
       <div class="coffee-tabs">
-        <button class="coffee-tab-btn active" id="tabGcash">GCash (Philippines)</button>
-        <button class="coffee-tab-btn" id="tabMaribank">MariBank</button>
+        <button class="coffee-tab-btn active" id="tabGcash" type="button">GCash (Philippines)</button>
+        <button class="coffee-tab-btn" id="tabMaribank" type="button">MariBank</button>
       </div>
-
       <div class="coffee-qr-wrap">
-        <img src="assets/qr-gcash.png" id="coffeeQrImg" class="coffee-qr-img" alt="QR Code to support via GCash">
-        <p style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-faint);" id="coffeeAccountNote">
-          Scan with your GCash app
-        </p>
+        <img src="assets/qr-gcash.png" id="coffeeQrImg" class="coffee-qr-img" width="210" height="210" alt="QR Code to support via GCash">
+        <p class="coffee-note" id="coffeeAccountNote">Scan with your GCash app</p>
       </div>
     </div>
   </div>
 
-  <!-- Share Toast -->
-  <div class="share-toast" id="shareToast">Link copied to clipboard!</div>
+  <div class="share-toast" id="shareToast" role="status" aria-live="polite">Archive link copied</div>
 
-  <!-- ==========================================
-       SITE FOOTER
-       ========================================== -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="logo-icon" style="width:28px; height:28px;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#7bc67e" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          </div>
-          <span class="footer-brand-title">The Library of Lessons</span>
-        </div>
-
-        <div class="footer-links">
-          <a href="https://github.com/The-Library-Of-Lessons" target="_blank" rel="noopener noreferrer">GitHub Organization</a>
-          <a href="#" id="footerJourneyLink">Reading Progress</a>
-          <a href="#" id="footerCoffeeLink">Buy me a coffee</a>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <span>Handcrafted with patience · Open knowledge for human growth</span>
-        <span>Every lesson is a seed planted for tomorrow.</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ==========================================
-       CLIENT APPLICATION LOGIC
-       ========================================== -->
-  <script>
-  (function(){
-    "use strict";
-
-    // 1. SUPABASE CLIENT SETUP
-    const USERNAME = "The-Library-Of-Lessons";
-    const SUPABASE_URL = "https://gtwqjkrkupkcpxafdepg.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_bYetZP5wIfGluCKzTjfcbg_O0FdpXwj";
-    const HEARTS_ENABLED = !!window.supabase && SUPABASE_URL.indexOf("YOUR_") !== 0;
-    const sb = HEARTS_ENABLED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-
-    // 2. VOTER ID & LOCAL STORAGE KEYS
-    const VOTER_KEY = "lol_voter_id_v1";
-    const VISITED_KEY = "lol_visited_v1";
-    const CACHE_KEY = "lol_guides_cache_v1";
-    const DAYPART_KEY = "lol_daypart_override";
-
-    function getVoterId(){
-      try {
-        let id = localStorage.getItem(VOTER_KEY);
-        if (!id){
-          id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("v-" + Date.now() + "-" + Math.random().toString(16).slice(2));
-          localStorage.setItem(VOTER_KEY, id);
-        }
-        return id;
-      } catch(err) {
-        return "v-" + Date.now();
-      }
-    }
-    const voterId = getVoterId();
-
-    function readVisited(){
-      try {
-        const raw = localStorage.getItem(VISITED_KEY);
-        return raw ? JSON.parse(raw) : {};
-      } catch(err) {
-        return {};
-      }
-    }
-
-    function markVisited(url){
-      try {
-        const visited = readVisited();
-        visited[url] = Date.now();
-        localStorage.setItem(VISITED_KEY, JSON.stringify(visited));
-      } catch(err){}
-      recordView(url);
-      updateJourneyUI();
-      // Update badge on card
-      document.querySelectorAll('.card[data-url="' + CSS.escape(url) + '"]').forEach(card => {
-        card.classList.add('visited');
-        if (!card.querySelector('.badge-visited')) {
-          const badgeWrap = card.querySelector('.card-badges-top');
-          if (badgeWrap) {
-            const span = document.createElement('span');
-            span.className = 'card-badge badge-visited';
-            span.innerHTML = '✓ Read';
-            badgeWrap.appendChild(span);
-          }
-        }
-      });
-    }
-
-    // 3. DAYPARTS & THEME SYSTEM
-    const dayparts = ["dawn", "day", "golden", "night"];
-    const daypartLabels = { dawn: "Dawn 🌅", day: "Day ☀️", golden: "Golden 🌇", night: "Night 🌙" };
-    const daypartIcons = { dawn: "🌅", day: "☀️", golden: "🌇", night: "🌙" };
-
-    function calculateDaypart(){
-      const hour = new Date().getHours();
-      if (hour >= 5 && hour < 9) return "dawn";
-      if (hour >= 9 && hour < 17) return "day";
-      if (hour >= 17 && hour < 20) return "golden";
-      return "night";
-    }
-
-    function initDaypart(){
-      const saved = localStorage.getItem(DAYPART_KEY);
-      const activePart = saved || calculateDaypart();
-      setDaypart(activePart, false);
-    }
-
-    function setDaypart(part, persist = true){
-      document.documentElement.setAttribute("data-daypart", part);
-      document.getElementById("daypartIcon").textContent = daypartIcons[part];
-      document.getElementById("daypartName").textContent = part.charAt(0).toUpperCase() + part.slice(1);
-      if (persist) localStorage.setItem(DAYPART_KEY, part);
-    }
-
-    document.getElementById("daypartToggle").addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-daypart") || "day";
-      const nextIndex = (dayparts.indexOf(current) + 1) % dayparts.length;
-      setDaypart(dayparts[nextIndex]);
-    });
-    initDaypart();
-
-    // 4. LESSON OF THE DAY (100 Timeless Quotes)
-    const QUOTES = [
-  {
-    "text": "The impediment to action advances action. What stands in the way becomes the way.",
-    "author": "Marcus Aurelius"
-  },
-  {
-    "text": "We suffer more often in imagination than in reality.",
-    "author": "Seneca"
-  },
-  {
-    "text": "No person has the power to have everything they want, but it is in their power not to want what they haven't got.",
-    "author": "Seneca"
-  },
-  {
-    "text": "First say to yourself what you would be; and then do what you have to do.",
-    "author": "Epictetus"
-  },
-  {
-    "text": "Nature does not hurry, yet everything is accomplished.",
-    "author": "Lao Tzu"
-  },
-  {
-    "text": "Knowing others is intelligence; knowing yourself is true wisdom.",
-    "author": "Lao Tzu"
-  },
-  {
-    "text": "Simplicity is the prerequisite for reliability.",
-    "author": "Edsger W. Dijkstra"
-  },
-  {
-    "text": "A journey of a thousand miles begins with a single step.",
-    "author": "Lao Tzu"
-  },
-  {
-    "text": "He who has a why to live can bear almost any how.",
-    "author": "Friedrich Nietzsche"
-  },
-  {
-    "text": "It is not that we have a short time to live, but that we waste a lot of it.",
-    "author": "Seneca"
-  },
-  {
-    "text": "Live as if you were to die tomorrow. Learn as if you were to live forever.",
-    "author": "Mahatma Gandhi"
-  },
-  {
-    "text": "The soul becomes dyed with the color of its thoughts.",
-    "author": "Marcus Aurelius"
-  },
-  {
-    "text": "You have power over your mind - not outside events. Realize this, and you will find strength.",
-    "author": "Marcus Aurelius"
-  },
-  {
-    "text": "Dwell on the beauty of life. Watch the stars, and see yourself running with them.",
-    "author": "Marcus Aurelius"
-  },
-  {
-    "text": "Waste no more time arguing about what a good person should be. Be one.",
-    "author": "Marcus Aurelius"
-  },
-  {
-    "text": "Make each day your masterpiece.",
-    "author": "John Wooden"
-  },
-  {
-    "text": "Discipline equals freedom.",
-    "author": "Jocko Willink"
-  },
-  {
-    "text": "Small daily improvements over time lead to stunning results.",
-    "author": "Robin Sharma"
-  },
-  {
-    "text": "The best time to plant a tree was 20 years ago. The second best time is now.",
-    "author": "Chinese Proverb"
-  },
-  {
-    "text": "Tell me and I forget, teach me and I may remember, involve me and I learn.",
-    "author": "Benjamin Franklin"
-  },
-  {
-    "text": "In the middle of difficulty lies opportunity.",
-    "author": "Albert Einstein"
-  },
-  {
-    "text": "It does not matter how slowly you go as long as you do not stop.",
-    "author": "Confucius"
-  },
-  {
-    "text": "He who conquers himself is the mightiest warrior.",
-    "author": "Confucius"
-  },
-  {
-    "text": "An unexamined life is not worth living.",
-    "author": "Socrates"
-  },
-  {
-    "text": "The secret of change is to focus all your energy not on fighting the old, but on building the new.",
-    "author": "Socrates"
-  },
-  {
-    "text": "Patience is bitter, but its fruit is sweet.",
-    "author": "Jean-Jacques Rousseau"
-  },
-  {
-    "text": "Do what you can, with what you have, where you are.",
-    "author": "Theodore Roosevelt"
-  },
-  {
-    "text": "Courage is not the absence of fear, but rather the judgment that something else is more important than fear.",
-    "author": "Ambrose Redmoon"
-  },
-  {
-    "text": "Everything should be made as simple as possible, but not simpler.",
-    "author": "Albert Einstein"
-  },
-  {
-    "text": "The cave you fear to enter holds the treasure you seek.",
-    "author": "Joseph Campbell"
-  },
-  {
-    "text": "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
-    "author": "Will Durant"
-  },
-  {
-    "text": "Muddy water is best cleared by leaving it alone.",
-    "author": "Alan Watts"
-  },
-  {
-    "text": "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.",
-    "author": "Ralph Waldo Emerson"
-  },
-  {
-    "text": "Adopt the pace of nature: her secret is patience.",
-    "author": "Ralph Waldo Emerson"
-  },
-  {
-    "text": "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
-    "author": "Ralph Waldo Emerson"
-  },
-  {
-    "text": "I went to the woods because I wished to live deliberately.",
-    "author": "Henry David Thoreau"
-  },
-  {
-    "text": "Simplify, simplify.",
-    "author": "Henry David Thoreau"
-  },
-  {
-    "text": "Things do not change; we change.",
-    "author": "Henry David Thoreau"
-  },
-  {
-    "text": "The quiet mind is richer than a crown.",
-    "author": "Robert Greene"
-  },
-  {
-    "text": "Let everything happen to you: beauty and terror. Just keep going. No feeling is final.",
-    "author": "Rainer Maria Rilke"
-  },
-  {
-    "text": "Be patient toward all that is unsolved in your heart and try to love the questions themselves.",
-    "author": "Rainer Maria Rilke"
-  },
-  {
-    "text": "The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.",
-    "author": "Albert Camus"
-  },
-  {
-    "text": "In the depth of winter, I finally learned that within me there lay an invincible summer.",
-    "author": "Albert Camus"
-  },
-  {
-    "text": "Action cures fear. Inaction creates terror.",
-    "author": "Douglas Horton"
-  },
-  {
-    "text": "Begin at once to live, and count each separate day as a separate life.",
-    "author": "Seneca"
-  },
-  {
-    "text": "If a man knows not to which port he sails, no wind is favorable.",
-    "author": "Seneca"
-  },
-  {
-    "text": "The happiness of your life depends upon the quality of your thoughts.",
-    "author": "Marcus Aurelius"
-  },
-  {
-    "text": "Never let the future disturb you. You will meet it with the same weapons of reason which today arm you against the present.",
-    "author": "Marcus Aurelius"
-  },
-  {
-    "text": "Very little is needed to make a happy life; it is all within yourself, in your way of thinking.",
-    "author": "Marcus Aurelius"
-  },
-  {
-    "text": "Wealth consists not in having great possessions, but in having few wants.",
-    "author": "Epictetus"
-  },
-  {
-    "text": "Don't explain your philosophy. Embody it.",
-    "author": "Epictetus"
-  },
-  {
-    "text": "He who laughs at himself never runs out of things to laugh at.",
-    "author": "Epictetus"
-  },
-  {
-    "text": "Silence is a source of great strength.",
-    "author": "Lao Tzu"
-  },
-  {
-    "text": "When you are content to be simply yourself and don't compare or compete, everyone will respect you.",
-    "author": "Lao Tzu"
-  },
-  {
-    "text": "To the mind that is still, the whole universe surrenders.",
-    "author": "Lao Tzu"
-  },
-  {
-    "text": "Be like water making its way through cracks. Do not be assertive, but adjust to the object.",
-    "author": "Bruce Lee"
-  },
-  {
-    "text": "The successful warrior is the average man, with laser-like focus.",
-    "author": "Bruce Lee"
-  },
-  {
-    "text": "Knowing is not enough, we must apply. Willing is not enough, we must do.",
-    "author": "Johann Wolfgang von Goethe"
-  },
-  {
-    "text": "Whatever you can do, or dream you can, begin it. Boldness has genius, power and magic in it.",
-    "author": "Johann Wolfgang von Goethe"
-  },
-  {
-    "text": "Rest is not idleness, and to lie sometimes on the grass under trees is by no means a waste of time.",
-    "author": "John Lubbock"
-  },
-  {
-    "text": "Peace comes from within. Do not seek it without.",
-    "author": "Buddha"
-  },
-  {
-    "text": "Three things cannot be long hidden: the sun, the moon, and the truth.",
-    "author": "Buddha"
-  },
-  {
-    "text": "The mind is everything. What you think you become.",
-    "author": "Buddha"
-  },
-  {
-    "text": "Drop by drop is the water pot filled. Likewise, the wise man, gathering it little by little, fills himself with good.",
-    "author": "Dhammapada"
-  },
-  {
-    "text": "Better than a thousand hollow words, is one word that brings peace.",
-    "author": "Dhammapada"
-  },
-  {
-    "text": "Nothing is permanent except change.",
-    "author": "Heraclitus"
-  },
-  {
-    "text": "No man ever steps in the same river twice, for it's not the same river and he's not the same man.",
-    "author": "Heraclitus"
-  },
-  {
-    "text": "Character is destiny.",
-    "author": "Heraclitus"
-  },
-  {
-    "text": "The greatest wealth is to live content with little.",
-    "author": "Plato"
-  },
-  {
-    "text": "Wise men speak because they have something to say; fools because they have to say something.",
-    "author": "Plato"
-  },
-  {
-    "text": "There are two things a person should never be angry at: what they can help, and what they cannot.",
-    "author": "Plato"
-  },
-  {
-    "text": "Educating the mind without educating the heart is no education at all.",
-    "author": "Aristotle"
-  },
-  {
-    "text": "Knowing yourself is the beginning of all wisdom.",
-    "author": "Aristotle"
-  },
-  {
-    "text": "Quality is not an act, it is a habit.",
-    "author": "Aristotle"
-  },
-  {
-    "text": "Hope is a waking dream.",
-    "author": "Aristotle"
-  },
-  {
-    "text": "The energy of the mind is the essence of life.",
-    "author": "Aristotle"
-  },
-  {
-    "text": "It is during our darkest moments that we must focus to see the light.",
-    "author": "Aristotle Onassis"
-  },
-  {
-    "text": "The only true wisdom is in knowing you know nothing.",
-    "author": "Socrates"
-  },
-  {
-    "text": "Be kind, for everyone you meet is fighting a hard battle.",
-    "author": "Philo"
-  },
-  {
-    "text": "Order and simplification are the first steps toward the mastery of a subject.",
-    "author": "Thomas Mann"
-  },
-  {
-    "text": "The art of being wise is the art of knowing what to overlook.",
-    "author": "William James"
-  },
-  {
-    "text": "Act as if what you do makes a difference. It does.",
-    "author": "William James"
-  },
-  {
-    "text": "A great deal of intelligence can be invested in ignorance when the need for illusion is deep.",
-    "author": "Saul Bellow"
-  },
-  {
-    "text": "Turn your wounds into wisdom.",
-    "author": "Oprah Winfrey"
-  },
-  {
-    "text": "Courage is grace under pressure.",
-    "author": "Ernest Hemingway"
-  },
-  {
-    "text": "There is nothing noble in being superior to your fellow man; true nobility is being superior to your former self.",
-    "author": "Ernest Hemingway"
-  },
-  {
-    "text": "The master has failed more times than the beginner has even tried.",
-    "author": "Stephen McCranie"
-  },
-  {
-    "text": "Wisdom begins in wonder.",
-    "author": "Socrates"
-  },
-  {
-    "text": "Attention is the rarest and purest form of generosity.",
-    "author": "Simone Weil"
-  },
-  {
-    "text": "Life can only be understood backwards; but it must be lived forwards.",
-    "author": "S\u00f8ren Kierkegaard"
-  },
-  {
-    "text": "Anxiety is the dizziness of freedom.",
-    "author": "S\u00f8ren Kierkegaard"
-  },
-  {
-    "text": "To dare is to lose one's footing momentarily. Not to dare is to lose oneself.",
-    "author": "S\u00f8ren Kierkegaard"
-  },
-  {
-    "text": "Everything has beauty, but not everyone sees it.",
-    "author": "Confucius"
-  },
-  {
-    "text": "He who learns but does not think, is lost! He who thinks but does not learn is in great danger.",
-    "author": "Confucius"
-  },
-  {
-    "text": "The green reed which bends in the wind is stronger than the mighty oak which breaks in a storm.",
-    "author": "Confucius"
-  },
-  {
-    "text": "Clear thinking requires courage rather than intelligence.",
-    "author": "Thomas Szasz"
-  },
-  {
-    "text": "Give me six hours to chop down a tree and I will spend the first four sharpening the axe.",
-    "author": "Abraham Lincoln"
-  },
-  {
-    "text": "A room without books is like a body without a soul.",
-    "author": "Cicero"
-  },
-  {
-    "text": "If you have a garden and a library, you have everything you need.",
-    "author": "Cicero"
-  },
-  {
-    "text": "Not all those who wander are lost.",
-    "author": "J.R.R. Tolkien"
-  }
-];
-
-    function initDailyQuote(){
-      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-      const quote = QUOTES[dayOfYear % QUOTES.length];
-      document.getElementById("dailyQuoteText").textContent = `"${quote.text}"`;
-      document.getElementById("dailyQuoteAuthor").textContent = `— ${quote.author}`;
-    }
-    initDailyQuote();
-
-    document.getElementById("copyQuoteBtn").addEventListener("click", () => {
-      const text = document.getElementById("dailyQuoteText").textContent + " " + document.getElementById("dailyQuoteAuthor").textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        showToast("Quote copied to clipboard!");
-      });
-    });
-
-    // 5. CANVAS PARTICLE SYSTEM (Leaves & Sun Motes)
-    const canvas = document.getElementById("heroCanvas");
-    const ctx = canvas ? canvas.getContext("2d") : null;
-    let particles = [];
-    let animFrameId = null;
-
-    function resizeCanvas(){
-      if (!canvas) return;
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
-
-    function initParticles(){
-      if (!canvas) return;
-      resizeCanvas();
-      particles = [];
-      const count = window.innerWidth < 768 ? 16 : 30;
-      for (let i = 0; i < count; i++){
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          radius: Math.random() * 4 + 2,
-          speedY: Math.random() * 0.8 + 0.3,
-          speedX: Math.sin(Math.random() * Math.PI * 2) * 0.5,
-          angle: Math.random() * Math.PI * 2,
-          angleSpeed: (Math.random() - 0.5) * 0.03,
-          opacity: Math.random() * 0.5 + 0.2,
-          type: Math.random() > 0.4 ? "leaf" : "mote"
-        });
-      }
-    }
-
-    function renderParticles(){
-      if (!ctx || !canvas) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const isNight = document.documentElement.getAttribute("data-daypart") === "night";
-
-      for (let p of particles){
-        p.y += p.speedY;
-        p.x += p.speedX + Math.sin(p.y * 0.015) * 0.4;
-        p.angle += p.angleSpeed;
-
-        if (p.y > canvas.height + 20){
-          p.y = -20;
-          p.x = Math.random() * canvas.width;
-        }
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-
-        if (p.type === "leaf" && !isNight){
-          ctx.fillStyle = `rgba(62, 168, 105, ${p.opacity * 0.6})`;
-          ctx.beginPath();
-          ctx.ellipse(0, 0, p.radius * 2, p.radius, 0, 0, Math.PI * 2);
-          ctx.fill();
-        } else {
-          // Luminous sun mote or night firefly
-          ctx.fillStyle = isNight ? `rgba(253, 224, 71, ${p.opacity})` : `rgba(255, 235, 170, ${p.opacity})`;
-          ctx.shadowColor = isNight ? "#fbbf24" : "#f59e0b";
-          ctx.shadowBlur = 6;
-          ctx.beginPath();
-          ctx.arc(0, 0, p.radius * 0.9, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.restore();
-      }
-
-      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-        animFrameId = requestAnimationFrame(renderParticles);
-      }
-    }
-
-    window.addEventListener("resize", () => {
-      resizeCanvas();
-    });
-
-    if (canvas && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-      initParticles();
-      renderParticles();
-    }
-
-    // 6. TOPIC DETECTION & PROVISION
-    function detectTopic(name, desc){
-      const text = (name + " " + (desc || "")).toLowerCase().replace(/[-_]+/g, " ");
-      if (/leader|coach|team|manager|shepherd|heart framework|humor|level 5/i.test(text)) return "Leadership";
-      if (/peace|stress|worry|flow state|calm|mind|subconscious/i.test(text)) return "Mind & Calm";
-      if (/care|connect|friend|acquaintance|speak|giving|blessing|wife|love/i.test(text)) return "Connection";
-      if (/wisdom|god|sabbath|christian|armor|spiritual|forgiveness|principles/i.test(text)) return "Wisdom";
-      if (/framework|project|cleared|risk|problem|smart|scope|quality|systems|ladder|software|planning|calculator|storage|upload/i.test(text)) return "Work & Systems";
-      return "Growth & Habits";
-    }
-
-    function titleCase(slug){
-      return slug.replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-    }
-
-    function estimateReadTime(text){
-      const words = (text || "").split(/\s+/).length;
-      return Math.max(3, Math.min(12, Math.round(words / 150) + 4));
-    }
-
-    function strHash(s){
-      let h = 0;
-      for (let i = 0; i < s.length; i++){
-        h = ((h << 5) - h) + s.charCodeAt(i);
-        h |= 0;
-      }
-      return Math.abs(h);
-    }
-
-    // 7. PROCEDURAL NATURE & BOOK COVER GENERATOR
-    function makeCoverSVG(title, topic, callNo){
-      const h = strHash(title);
-      const palettes = {
-        "Leadership": [["#193526", "#0c1f15"], ["#234734", "#12261b"]],
-        "Mind & Calm": [["#1a3344", "#0d1d29"], ["#234255", "#132835"]],
-        "Work & Systems": [["#3d301c", "#241a0d"], ["#473722", "#281e10"]],
-        "Connection": [["#3e212b", "#241118"], ["#4a2734", "#2a121d"]],
-        "Wisdom": [["#2b1f40", "#160e24"], ["#362652", "#1d122e"]],
-        "Growth & Habits": [["#1d3b24", "#0c2012"], ["#274c30", "#132b1a"]]
-      };
-
-      const palGroup = palettes[topic] || palettes["Growth & Habits"];
-      const [c1, c2] = palGroup[h % palGroup.length];
-      const accent = ["#6ee7b7", "#93c5fd", "#fcd34d", "#f472b6", "#c084fc", "#86efac"][h % 6];
-
-      // Procedural terrain paths based on hash
-      const p1 = 60 + (h % 30);
-      const p2 = 80 + ((h >> 2) % 40);
-      const p3 = 50 + ((h >> 4) % 35);
-
-      return `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" preserveAspectRatio="xMidYMid slice" class="card-cover-svg" role="img" aria-label="${title} cover">
-          <defs>
-            <linearGradient id="g_${h}" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="${c1}"/>
-              <stop offset="100%" stop-color="${c2}"/>
-            </linearGradient>
-            <radialGradient id="sun_${h}" cx="75%" cy="30%" r="50%">
-              <stop offset="0%" stop-color="${accent}" stop-opacity="0.35"/>
-              <stop offset="100%" stop-color="${c1}" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <rect width="400" height="160" fill="url(#g_${h})"/>
-          <circle cx="300" cy="50" r="90" fill="url(#sun_${h})"/>
-
-          <!-- Organic Ridge 1 -->
-          <path d="M-20 160 L40 ${p1} L140 160 L240 ${p2} L340 160 L420 ${p3} L440 160 Z" fill="#ffffff" fill-opacity="0.07"/>
-
-          <!-- Organic Ridge 2 with pine crests -->
-          <path d="M-20 160 L80 ${p2 + 15} L170 160 L280 ${p1 + 20} L390 160 Z" fill="#ffffff" fill-opacity="0.1"/>
-
-          <!-- Horizon Vignette -->
-          <rect y="110" width="400" height="50" fill="url(#g_${h})" opacity="0.6"/>
-        </svg>
-      `;
-    }
-
-    // 8. CARD BUILDER COMPONENT
-    function buildCard(g, index, visitedMap, opts = {}){
-      const card = document.createElement("a");
-      card.className = "card";
-      card.href = g.url;
-      card.target = "_blank";
-      card.rel = "noopener noreferrer";
-      card.dataset.url = g.url;
-      card.dataset.topic = g.topic;
-
-      const isVisited = !!visitedMap[g.url];
-      if (isVisited) card.classList.add("visited");
-
-      const callNo = "LOL · " + String(index + 1).padStart(3, "0");
-      const readTime = estimateReadTime(g.desc);
-
-      // Recency Badge
-      const days = (Date.now() - new Date(g.updated).getTime()) / (1000 * 60 * 60 * 24);
-      let badgeHTML = "";
-      if (days <= 3) {
-        badgeHTML = '<span class="card-badge badge-new">New</span>';
-      } else if (days <= 14 && !opts.compact) {
-        badgeHTML = '<span class="card-badge badge-recent">Updated</span>';
-      }
-      if (isVisited) {
-        badgeHTML += '<span class="card-badge badge-visited">✓ Read</span>';
-      }
-
-      card.innerHTML = `
-        <div class="card-cover">
-          ${makeCoverSVG(g.title, g.topic, callNo)}
-          <span class="card-call-no">${callNo}</span>
-          <div class="card-badges-top">${badgeHTML}</div>
-        </div>
-        <div class="card-body">
-          <span class="card-topic-tag">${g.topic}</span>
-          <h3 class="card-title">${g.title}</h3>
-          <p class="card-desc">${g.desc || "A focused practical guide on mastering " + g.title.toLowerCase() + " with actionable principles."}</p>
-        </div>
-        <div class="card-footer">
-          <div class="card-meta-left">
-            <span class="meta-item" title="Estimated reading time">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              ${readTime}m read
-            </span>
-            <span class="meta-item" title="Unique reader opens">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              ${g.uniqueViews || 0}
-            </span>
-          </div>
-          <button class="heart-btn" type="button" data-url="${g.url}" aria-pressed="${g.heartedByMe ? 'true' : 'false'}" title="Appreciate this lesson">
-            <svg viewBox="0 0 24 24" fill="${g.heartedByMe ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
-            <span class="heart-count">${g.hearts || 0}</span>
-          </button>
-        </div>
-      `;
-
-      // 3D Tilt on Hover (disabled on reduced motion)
-      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-        card.addEventListener("mousemove", (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = (e.clientX - rect.left) / rect.width - 0.5;
-          const y = (e.clientY - rect.top) / rect.height - 0.5;
-          card.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-4px)`;
-        });
-
-        card.addEventListener("mouseleave", () => {
-          card.style.transform = "none";
-        });
-      }
-
-      // Record visit on guide open
-      card.addEventListener("click", (e) => {
-        if (e.target.closest(".heart-btn")) {
-          e.preventDefault();
-          return;
-        }
-        markVisited(g.url);
-      });
-
-      return card;
-    }
-
-    // 9. LEAF BURST HEART MICRO-ANIMATION
-    function spawnLeafBurst(btn){
-      const colors = ["#3ea869", "#52b788", "#74c69d", "#f59e0b", "#fcd34d"];
-      for (let i = 0; i < 7; i++){
-        const leaf = document.createElement("div");
-        leaf.className = "leaf-burst-particle";
-        const angle = (i / 7) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
-        const dist = Math.random() * 30 + 20;
-        const dx = Math.cos(angle) * dist + "px";
-        const dy = Math.sin(angle) * dist + "px";
-        const rot = (Math.random() * 360) + "deg";
-
-        leaf.style.setProperty("--dx", dx);
-        leaf.style.setProperty("--dy", dy);
-        leaf.style.setProperty("--rot", rot);
-        leaf.style.left = "50%";
-        leaf.style.top = "50%";
-
-        leaf.innerHTML = `<svg viewBox="0 0 24 24" fill="${colors[i % colors.length]}"><path d="M12 2C6.5 2 2 6.5 2 12c0 5 4 9 9 10 1-5 2-8 5-11 3-3 5-5 5-9 0-1-1-2-2-2-3 0-5 2-7 5z"/></svg>`;
-        btn.appendChild(leaf);
-        setTimeout(() => leaf.remove(), 600);
-      }
-    }
-
-    // 10. SUPABASE HEARTS & VIEWS LOGIC
-    let heartCounts = {};
-    let myHearts = new Set();
-    let viewCounts = {};
-
-    async function loadHearts(){
-      if (!sb) return;
-      try {
-        const [countsRes, mineRes] = await Promise.all([
-          sb.from("guide_heart_counts").select("guide_url, hearts"),
-          sb.from("guide_hearts").select("guide_url").eq("voter_id", voterId)
-        ]);
-        if (countsRes.data){
-          countsRes.data.forEach(row => { heartCounts[row.guide_url] = row.hearts; });
-        }
-        if (mineRes.data){
-          myHearts = new Set(mineRes.data.map(row => row.guide_url));
-        }
-      } catch(err){}
-    }
-
-    async function loadViews(){
-      if (!sb) return;
-      try {
-        const res = await sb.from("guide_view_counts").select("guide_url, views");
-        if (res.data){
-          res.data.forEach(row => { viewCounts[row.guide_url] = row.views; });
-        }
-      } catch(err){}
-    }
-
-    async function recordView(url){
-      if (!sb) return;
-      try {
-        await sb.from("guide_views").upsert(
-          { guide_url: url, voter_id: voterId, viewed_at: new Date().toISOString() },
-          { onConflict: "guide_url,voter_id" }
-        );
-      } catch(err){}
-    }
-
-    async function toggleHeart(url, btn){
-      if (!sb) return;
-      const nowActive = !myHearts.has(url);
-
-      if (nowActive){
-        myHearts.add(url);
-        spawnLeafBurst(btn);
-      } else {
-        myHearts.delete(url);
-      }
-
-      heartCounts[url] = Math.max(0, (heartCounts[url] || 0) + (nowActive ? 1 : -1));
-      syncHeartUI(url);
-
-      try {
-        if (nowActive){
-          const { error } = await sb.from("guide_hearts").insert({ guide_url: url, voter_id: voterId });
-          if (error && error.code !== "23505") throw error;
-        } else {
-          const { error } = await sb.from("guide_hearts").delete().eq("guide_url", url).eq("voter_id", voterId);
-          if (error) throw error;
-        }
-      } catch(err){
-        // Rollback
-        if (nowActive) myHearts.delete(url); else myHearts.add(url);
-        heartCounts[url] = Math.max(0, (heartCounts[url] || 0) + (nowActive ? -1 : 1));
-        syncHeartUI(url);
-      }
-    }
-
-    function syncHeartUI(url){
-      const count = heartCounts[url] || 0;
-      const active = myHearts.has(url);
-      document.querySelectorAll(`.heart-btn[data-url="${CSS.escape(url)}"]`).forEach(b => {
-        b.setAttribute("aria-pressed", active ? "true" : "false");
-        const countSpan = b.querySelector(".heart-count");
-        if (countSpan) countSpan.textContent = count;
-        const svg = b.querySelector("svg");
-        if (svg) svg.setAttribute("fill", active ? "currentColor" : "none");
-      });
-    }
-
-    // Global listener for heart button delegation
-    document.addEventListener("click", (e) => {
-      const heartBtn = e.target.closest(".heart-btn");
-      if (heartBtn){
-        e.preventDefault();
-        e.stopPropagation();
-        const url = heartBtn.dataset.url;
-        if (url) toggleHeart(url, heartBtn);
-      }
-    });
-
-    // 11. CATALOG DATA & GITHUB FETCH
-    let allGuides = [];
-    let activeTopic = "all";
-
-    const FALLBACK_GUIDES = [
-      {
-        name: "The-CARE-Framework-for-Connecting-with-Others",
-        title: "The CARE Framework for Connecting with Others",
-        desc: "Discover four Scripture-rooted habits (Curiosity, Acceptance, Reach out, Empathy) for truly connecting with coworkers, family, and friends with real-life scenes.",
-        url: "https://the-library-of-lessons.github.io/The-CARE-Framework-for-Connecting-with-Others/",
-        updated: new Date().toISOString(),
-        added: "2024-01-10T00:00:00Z"
-      },
-      {
-        name: "HEART-framework-for-Leading-People",
-        title: "HEART Framework for Leading People",
-        desc: "Timeless lessons from managing from the heart: Honesty, Empathy, Acceptance, Respect, and Trust to inspire and build teams.",
-        url: "https://the-library-of-lessons.github.io/HEART-framework-for-Leading-People/",
-        updated: new Date(Date.now() - 86400000 * 2).toISOString(),
-        added: "2024-01-15T00:00:00Z"
-      },
-      {
-        name: "The-CLEARED-Framework",
-        title: "The CLEARED Framework",
-        desc: "How organizations and teams should structure clear processes to provide reliable quality to clients and clarity to teammates.",
-        url: "https://the-library-of-lessons.github.io/The-CLEARED-Framework/",
-        updated: new Date(Date.now() - 86400000 * 5).toISOString(),
-        added: "2024-02-01T00:00:00Z"
-      },
-      {
-        name: "Comprehensive-Guide-for-Stress-Management",
-        title: "Comprehensive Guide for Stress Management",
-        desc: "A holistic, grounded manual on nervous system regulation, mental framing, and sustained inner peace under high demand.",
-        url: "https://the-library-of-lessons.github.io/Comprehensive-Guide-for-Stress-Management/",
-        updated: new Date(Date.now() - 86400000 * 8).toISOString(),
-        added: "2024-02-14T00:00:00Z"
-      },
-      {
-        name: "The-One-Minute-Manager-Summary",
-        title: "The One Minute Manager Summary",
-        desc: "Essential principles of setting clear one-minute goals, giving prompt one-minute praisings, and offering corrective redirects.",
-        url: "https://the-library-of-lessons.github.io/The-One-Minute-Manager-Summary/",
-        updated: new Date(Date.now() - 86400000 * 12).toISOString(),
-        added: "2024-02-20T00:00:00Z"
-      },
-      {
-        name: "Difference-Between-Planning-and-Worrying",
-        title: "Difference Between Planning and Worrying",
-        desc: "Disentangling productive forward-looking preparation from cyclical anxiety and learned helplessness.",
-        url: "https://the-library-of-lessons.github.io/Difference-Between-Planning-and-Worrying/",
-        updated: new Date(Date.now() - 86400000 * 18).toISOString(),
-        added: "2024-03-01T00:00:00Z"
-      },
-      {
-        name: "The-Flow-State",
-        title: "The Flow State",
-        desc: "Cultivating conditions for effortless concentration, deep focus, and high creative output without friction.",
-        url: "https://the-library-of-lessons.github.io/The-Flow-State/",
-        updated: new Date(Date.now() - 86400000 * 22).toISOString(),
-        added: "2024-03-10T00:00:00Z"
-      },
-      {
-        name: "Think-in-Systems-Change-the-World",
-        title: "Think in Systems: Change the World",
-        desc: "Mental models for recognizing feedback loops, systemic bottlenecks, and high-leverage intervention points.",
-        url: "https://the-library-of-lessons.github.io/Think-in-Systems-Change-the-World/",
-        updated: new Date(Date.now() - 86400000 * 30).toISOString(),
-        added: "2024-03-25T00:00:00Z"
-      }
-    ];
-
-    async function fetchGuides(){
-      try {
-        const resp = await fetch("https://api.github.com/users/" + USERNAME + "/repos?per_page=100");
-        if (!resp.ok) throw new Error("GitHub fetch failed");
-        const repos = await resp.json();
-
-        const guides = repos
-          .filter(r => !r.fork && r.name.toLowerCase() !== (USERNAME + ".github.io").toLowerCase())
-          .map(r => ({
-            name: r.name,
-            title: titleCase(r.name),
-            desc: r.description ? r.description.trim() : "",
-            url: "https://" + USERNAME.toLowerCase() + ".github.io/" + r.name + "/",
-            updated: r.pushed_at,
-            added: r.created_at
-          }))
-          .sort((a, b) => new Date(b.updated) - new Date(a.updated));
-
-        try {
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ guides: guides, time: Date.now() }));
-        } catch(e){}
-        return guides;
-      } catch(err){
-        // Cache fallback
-        try {
-          const cached = localStorage.getItem(CACHE_KEY);
-          if (cached){
-            const parsed = JSON.parse(cached);
-            if (parsed && parsed.guides && parsed.guides.length) return parsed.guides;
-          }
-        } catch(e){}
-        return FALLBACK_GUIDES;
-      }
-    }
-
-    // 12. RENDER PIPELINE
-    async function loadCatalog(){
-      const [guides] = await Promise.all([fetchGuides(), loadHearts(), loadViews()]);
-
-      guides.forEach(g => {
-        g.topic = detectTopic(g.name, g.desc);
-        g.hearts = heartCounts[g.url] || 0;
-        g.heartedByMe = myHearts.has(g.url);
-        g.uniqueViews = viewCounts[g.url] || 0;
-      });
-
-      allGuides = guides;
-      renderAll();
-    }
-
-    function renderAll(){
-      const visitedMap = readVisited();
-
-      // Topic counts
-      const counts = { all: allGuides.length, Leadership: 0, "Mind & Calm": 0, "Work & Systems": 0, Connection: 0, Wisdom: 0, "Growth & Habits": 0 };
-      allGuides.forEach(g => { if (counts[g.topic] !== undefined) counts[g.topic]++; });
-
-      document.getElementById("countAll").textContent = counts.all;
-      document.getElementById("countLeadership").textContent = counts.Leadership;
-      document.getElementById("countMind").textContent = counts["Mind & Calm"];
-      document.getElementById("countWork").textContent = counts["Work & Systems"];
-      document.getElementById("countConnection").textContent = counts.Connection;
-      document.getElementById("countWisdom").textContent = counts.Wisdom;
-      document.getElementById("countGrowth").textContent = counts["Growth & Habits"];
-
-      document.getElementById("catalogStatus").textContent = `${allGuides.length} lessons in the archive`;
-
-      renderShelves(allGuides, visitedMap);
-      renderGrid(allGuides, visitedMap);
-      renderFeaturedGem(allGuides);
-      updateJourneyUI();
-    }
-
-    function renderShelves(guides, visitedMap){
-      // Crowd Favorites: Top 8 by hearts
-      const crowdTrack = document.getElementById("crowdScrollTrack");
-      crowdTrack.innerHTML = "";
-      const crowdSorted = [...guides].sort((a, b) => (b.hearts || 0) - (a.hearts || 0)).slice(0, 8);
-      crowdSorted.forEach((g, idx) => {
-        crowdTrack.appendChild(buildCard(g, idx, visitedMap, { compact: true }));
-      });
-      document.getElementById("crowdCount").textContent = `${crowdSorted.length} Top Guides`;
-
-      // Recently Tended: Top 8 by updated
-      const recentTrack = document.getElementById("recentScrollTrack");
-      recentTrack.innerHTML = "";
-      const recentSorted = [...guides].sort((a, b) => new Date(b.updated) - new Date(a.updated)).slice(0, 8);
-      recentSorted.forEach((g, idx) => {
-        recentTrack.appendChild(buildCard(g, idx, visitedMap, { compact: true }));
-      });
-      document.getElementById("recentCount").textContent = `${recentSorted.length} Recently Tended`;
-    }
-
-    function renderFeaturedGem(guides){
-      if (!guides.length) return;
-      // Deterministic Daily Pick based on date
-      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-      const gem = guides[dayOfYear % guides.length];
-
-      document.getElementById("gemTitle").textContent = gem.title;
-      document.getElementById("gemDesc").textContent = gem.desc || "A distilled handbook on the core principles and practical practices of " + gem.title.toLowerCase() + ".";
-      document.getElementById("gemTopic").textContent = gem.topic;
-      document.getElementById("gemLink").href = gem.url;
-      document.getElementById("gemLink").onclick = () => markVisited(gem.url);
-    }
-
-    function renderGrid(guides, visitedMap){
-      const grid = document.getElementById("mainCardGrid");
-      grid.innerHTML = "";
-
-      let filtered = activeTopic === "all" ? [...guides] : guides.filter(g => g.topic === activeTopic);
-
-      // Sorting
-      const sortVal = document.getElementById("sortSelect").value;
-      if (sortVal === "recent") filtered.sort((a, b) => new Date(b.updated) - new Date(a.updated));
-      else if (sortVal === "added") filtered.sort((a, b) => new Date(b.added) - new Date(a.added));
-      else if (sortVal === "alpha") filtered.sort((a, b) => a.title.localeCompare(b.title));
-      else if (sortVal === "hearts") filtered.sort((a, b) => (b.hearts || 0) - (a.hearts || 0));
-      else if (sortVal === "unvisited") {
-        filtered.sort((a, b) => {
-          const va = visitedMap[a.url] ? 1 : 0;
-          const vb = visitedMap[b.url] ? 1 : 0;
-          return va - vb;
-        });
-      }
-
-      if (filtered.length === 0){
-        grid.innerHTML = `
-          <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md);">
-            <h3 style="font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 8px;">No lessons found in this shelf</h3>
-            <p style="color: var(--ink-soft); font-size: 0.9rem;">Try selecting "All Lessons" or clearing your filter.</p>
-          </div>
-        `;
-        return;
-      }
-
-      filtered.forEach((g, idx) => {
-        grid.appendChild(buildCard(g, idx, visitedMap));
-      });
-    }
-
-    // 13. TOPIC CHIP FILTERING
-    document.querySelectorAll(".topic-chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        document.querySelectorAll(".topic-chip").forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
-        activeTopic = chip.dataset.topic;
-        renderGrid(allGuides, readVisited());
-      });
-    });
-
-    document.getElementById("sortSelect").addEventListener("change", () => {
-      renderGrid(allGuides, readVisited());
-    });
-
-    // 14. SHELF SCROLL CONTROLS
-    document.getElementById("crowdPrevBtn").addEventListener("click", () => {
-      document.getElementById("crowdScrollTrack").scrollBy({ left: -340, behavior: "smooth" });
-    });
-    document.getElementById("crowdNextBtn").addEventListener("click", () => {
-      document.getElementById("crowdScrollTrack").scrollBy({ left: 340, behavior: "smooth" });
-    });
-    document.getElementById("recentPrevBtn").addEventListener("click", () => {
-      document.getElementById("recentScrollTrack").scrollBy({ left: -340, behavior: "smooth" });
-    });
-    document.getElementById("recentNextBtn").addEventListener("click", () => {
-      document.getElementById("recentScrollTrack").scrollBy({ left: 340, behavior: "smooth" });
-    });
-
-    // 15. READING JOURNEY LOGIC & MODAL
-    function updateJourneyUI(){
-      const visited = readVisited();
-      const visitedCount = Object.keys(visited).length;
-      const total = allGuides.length || 1;
-      const pct = Math.min(100, Math.round((visitedCount / total) * 100));
-
-      document.getElementById("journeySummary").textContent = `${visitedCount} / ${total}`;
-      document.getElementById("journeyDesc").textContent = `You have explored ${visitedCount} of ${total} lessons in the library.`;
-      document.getElementById("journeyPercent").textContent = `${pct}%`;
-      document.getElementById("journeyRemaining").textContent = `${Math.max(0, total - visitedCount)} lessons`;
-      document.getElementById("journeyProgressFill").style.width = `${pct}%`;
-
-      // Stage name
-      let stage = "A Seed is Planted";
-      if (pct > 75) stage = "Ancient Grove of Wisdom";
-      else if (pct > 50) stage = "Flourishing Oak Canopy";
-      else if (pct > 25) stage = "Budding Young Sapling";
-      else if (pct > 0) stage = "Fresh Green Sprout";
-      document.getElementById("journeyStageTitle").textContent = stage;
-    }
-
-    const journeyModal = document.getElementById("journeyModal");
-    document.getElementById("journeyPill").addEventListener("click", () => journeyModal.classList.add("open"));
-    document.getElementById("journeyCloseBtn").addEventListener("click", () => journeyModal.classList.remove("open"));
-    document.getElementById("footerJourneyLink").addEventListener("click", (e) => {
-      e.preventDefault();
-      journeyModal.classList.add("open");
-    });
-    journeyModal.addEventListener("click", (e) => {
-      if (e.target === journeyModal) journeyModal.classList.remove("open");
-    });
-
-    document.getElementById("journeyFilterBtn").addEventListener("click", () => {
-      journeyModal.classList.remove("open");
-      document.getElementById("sortSelect").value = "unvisited";
-      renderGrid(allGuides, readVisited());
-      document.getElementById("catalogToolbar").scrollIntoView({ behavior: "smooth" });
-    });
-
-    // 16. COMMAND PALETTE (CTRL+K / ⌘+K)
-    const cmdOverlay = document.getElementById("cmdOverlay");
-    const cmdInput = document.getElementById("cmdInput");
-    const cmdResults = document.getElementById("cmdResults");
-    let selectedIndex = 0;
-    let filteredCmdGuides = [];
-
-    function openCommandPalette(){
-      cmdOverlay.classList.add("open");
-      cmdInput.value = "";
-      updateCmdResults("");
-      setTimeout(() => cmdInput.focus(), 50);
-    }
-
-    function closeCommandPalette(){
-      cmdOverlay.classList.remove("open");
-    }
-
-    document.getElementById("searchTriggerBtn").addEventListener("click", openCommandPalette);
-    document.getElementById("heroSearchBtn").addEventListener("click", openCommandPalette);
-
-    // Global Keydown Handlers (Esc, Ctrl+K, /)
-    document.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k"){
-        e.preventDefault();
-        if (cmdOverlay.classList.contains("open")) closeCommandPalette();
-        else openCommandPalette();
-      } else if (e.key === "Escape"){
-        if (cmdOverlay.classList.contains("open")) closeCommandPalette();
-        if (coffeeModal.classList.contains("open")) closeCoffee();
-        if (journeyModal.classList.contains("open")) journeyModal.classList.remove("open");
-        if (shareMenu.classList.contains("open")) shareMenu.classList.remove("open");
-      } else if (e.key === "/" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)){
-        e.preventDefault();
-        openCommandPalette();
-      }
-    });
-
-    cmdOverlay.addEventListener("click", (e) => {
-      if (e.target === cmdOverlay) closeCommandPalette();
-    });
-
-    cmdInput.addEventListener("input", (e) => {
-      updateCmdResults(e.target.value);
-    });
-
-    function updateCmdResults(query){
-      const q = query.trim().toLowerCase();
-      filteredCmdGuides = allGuides.filter(g => {
-        if (!q) return true;
-        return g.title.toLowerCase().includes(q) ||
-               g.desc.toLowerCase().includes(q) ||
-               g.topic.toLowerCase().includes(q);
-      }).slice(0, 10);
-
-      selectedIndex = 0;
-      renderCmdItems();
-    }
-
-    function renderCmdItems(){
-      cmdResults.innerHTML = "";
-      document.getElementById("cmdResultCount").textContent = `${filteredCmdGuides.length} guides`;
-
-      if (filteredCmdGuides.length === 0){
-        cmdResults.innerHTML = `<li style="padding: 24px; text-align: center; color: var(--ink-faint); font-family: var(--font-mono); font-size: 0.85rem;">No matching lessons found</li>`;
-        return;
-      }
-
-      filteredCmdGuides.forEach((g, idx) => {
-        const li = document.createElement("li");
-        li.className = `cmd-item ${idx === selectedIndex ? "selected" : ""}`;
-        li.innerHTML = `
-          <div class="cmd-item-left">
-            <span class="cmd-item-title">${g.title}</span>
-            <div class="cmd-item-meta">
-              <span>${g.topic}</span>
-              <span>·</span>
-              <span>${estimateReadTime(g.desc)}m read</span>
-            </div>
-          </div>
-          <div class="cmd-item-right">
-            <span>Read ↗</span>
-          </div>
-        `;
-
-        li.addEventListener("click", () => {
-          markVisited(g.url);
-          window.open(g.url, "_blank");
-          closeCommandPalette();
-        });
-
-        cmdResults.appendChild(li);
-      });
-    }
-
-    cmdInput.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown"){
-        e.preventDefault();
-        selectedIndex = (selectedIndex + 1) % filteredCmdGuides.length;
-        renderCmdItems();
-      } else if (e.key === "ArrowUp"){
-        e.preventDefault();
-        selectedIndex = (selectedIndex - 1 + filteredCmdGuides.length) % filteredCmdGuides.length;
-        renderCmdItems();
-      } else if (e.key === "Enter" && filteredCmdGuides[selectedIndex]){
-        e.preventDefault();
-        const g = filteredCmdGuides[selectedIndex];
-        markVisited(g.url);
-        window.open(g.url, "_blank");
-        closeCommandPalette();
-      }
-    });
-
-    // 17. BUY ME A COFFEE MODAL
-    const coffeeModal = document.getElementById("coffeeModal");
-    const coffeeBtn = document.getElementById("coffeeBtn");
-    const coffeeCloseBtn = document.getElementById("coffeeCloseBtn");
-    const tabGcash = document.getElementById("tabGcash");
-    const tabMaribank = document.getElementById("tabMaribank");
-    const coffeeQrImg = document.getElementById("coffeeQrImg");
-    const coffeeAccountNote = document.getElementById("coffeeAccountNote");
-
-    function openCoffee(){ coffeeModal.classList.add("open"); }
-    function closeCoffee(){ coffeeModal.classList.remove("open"); }
-
-    coffeeBtn.addEventListener("click", openCoffee);
-    coffeeCloseBtn.addEventListener("click", closeCoffee);
-    document.getElementById("footerCoffeeLink").addEventListener("click", (e) => {
-      e.preventDefault();
-      openCoffee();
-    });
-    coffeeModal.addEventListener("click", (e) => {
-      if (e.target === coffeeModal) closeCoffee();
-    });
-
-    tabGcash.addEventListener("click", () => {
-      tabGcash.classList.add("active");
-      tabMaribank.classList.remove("active");
-      coffeeQrImg.src = "assets/qr-gcash.png";
-      coffeeAccountNote.textContent = "Scan with your GCash app";
-    });
-
-    tabMaribank.addEventListener("click", () => {
-      tabMaribank.classList.add("active");
-      tabGcash.classList.remove("active");
-      coffeeQrImg.src = "assets/qr-maribank.png";
-      coffeeAccountNote.textContent = "Scan with your MariBank or Seabank app";
-    });
-
-    // 18. SHARE SHEET & TOAST
-    const shareBtn = document.getElementById("shareBtn");
-    const shareMenu = document.getElementById("shareMenu");
-    const shareToast = document.getElementById("shareToast");
-
-    function showToast(msg){
-      shareToast.textContent = msg;
-      shareToast.classList.add("show");
-      setTimeout(() => shareToast.classList.remove("show"), 2000);
-    }
-
-    shareBtn.addEventListener("click", async (e) => {
-      e.stopPropagation();
-      if (navigator.share){
-        try {
-          await navigator.share({ title: document.title, url: window.location.href });
-          return;
-        } catch(err){}
-      }
-      shareMenu.classList.toggle("open");
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!shareMenu.contains(e.target) && e.target !== shareBtn){
-        shareMenu.classList.remove("open");
-      }
-    });
-
-    shareMenu.addEventListener("click", (e) => {
-      const item = e.target.closest("[data-share]");
-      if (!item) return;
-      const act = item.dataset.share;
-      const url = encodeURIComponent(window.location.href);
-      const title = encodeURIComponent(document.title);
-
-      if (act === "copy"){
-        navigator.clipboard.writeText(window.location.href).then(() => {
-          showToast("Link copied to clipboard!");
-          shareMenu.classList.remove("open");
-        });
-      } else if (act === "x"){
-        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, "_blank");
-        shareMenu.classList.remove("open");
-      } else if (act === "facebook"){
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, "_blank");
-        shareMenu.classList.remove("open");
-      } else if (act === "whatsapp"){
-        window.open(`https://wa.me/?text=${title}%20${url}`, "_blank");
-        shareMenu.classList.remove("open");
-      }
-    });
-
-    // START
-    loadCatalog();
-  })();
-  </script>
+  <script src="engine/scrollcraft.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
